@@ -1,0 +1,21 @@
+---
+- # ====== List of Values: EML_RECIPIENTS.RECIPIENT_EMAIL ======
+  id: 9042960240064516
+  identification: 
+    name: EML_RECIPIENTS.RECIPIENT_EMAIL
+
+  subscription: 
+    version-number: 44378202767698
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: EML_RECIPIENTS
+
+  column-mapping: 
+    return: ID
+    display: RECIPIENT_EMAIL
+    default-sort: RECIPIENT_EMAIL
+    sort-direction: Ascending (Nulls Last)
+

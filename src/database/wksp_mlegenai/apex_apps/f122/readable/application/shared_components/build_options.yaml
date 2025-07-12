@@ -1,0 +1,46 @@
+---
+- # ====== Build Option: Commented Out =========================
+  id: 9016619569064076
+  identification: 
+    name: Commented Out
+
+  status: 
+    status: Exclude
+    default-on-export: Same as Current Status
+    on-upgrade-keep-status: false
+
+  subscription: 
+    version-number: 44378202763957
+
+- # ====== Build Option: Feature: Push Notifications ===========
+  id: 9082847406064643
+  identification: 
+    name: 'Feature: Push Notifications'
+
+  status: 
+    status: Include
+    default-on-export: Same as Current Status
+    on-upgrade-keep-status: false
+
+  comments: 
+    comments: Allow users to subscribe to push notifications on their devices.
+
+  subscription: 
+    version-number: 44378202769515
+
+- # ====== Build Option: Feature: User Settings ================
+  id: 9083178621064645
+  identification: 
+    name: 'Feature: User Settings'
+
+  status: 
+    status: Include
+    default-on-export: Same as Current Status
+    on-upgrade-keep-status: false
+
+  comments: 
+    comments: The user settings page is a drawer that links to all user settings pages.
+
+  subscription: 
+    version-number: 44378202769515
+

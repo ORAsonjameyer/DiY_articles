@@ -1,0 +1,95 @@
+-- Script for working with database objects in Oracle SQL Dev Ext
+select *
+  from v$version;
+
+select *
+  from all_objects
+ where owner = 'WKSP_MLEGENAI';
+
+-- VS Code environment setup 2024_APEX_Dev
+sql "WKSP_MLEGENAI/2024_APEX_Dev@apexdev_high?TNS_ADMIN=/Users/SOMEYER/Oracle_Environment/always_free_wallet/Wallet_APEXDEV"
+sql "WKSP_MLEGENAI/2024_APEX_Dev@apexdev_medium?TNS_ADMIN=/Users/SOMEYER/Oracle_Environment/always_free_wallet/Wallet_APEXDEV"
+
+sql "WKSP_MLEGENAI/<pw>@apexdev_medium?TNS_ADMIN=<path to your wallet"
+
+
+-- Perfect — you're now in SQLcl, connected, and ready to initialize your project.
+-- As the message says, the only required option is -name.
+project init -name diy_articles -schemas WKSP_MLEGENAI -directory /Users/SOMEYER/GitHub/DiY_articles
+
+    -- Optional: If you want it to create a subfolder (e.g. diy_articles/) inside your repo automatically, add -makeroot:
+    project init -name diy_articles -schemas WKSP_MLEGENAI -directory /Users/SOMEYER/GitHub/DiY_articles -makeroot
+
+-- This will create a new folder named "diy_articles" in your GitHub repository with the necessary files.
+project export generate
+
+-- you cnan currently not exclude objects but you can say explicit the objects you want to export
+project export generate -objects "table:WKSP_MLEGENAI.DIY_ARTICLES"
+project export -objects WKSP_MLEGENAI.EML_RECIPIENTS,WKSP_MLEGENAI.EML_EMAIL_CONTENT,WKSP_MLEGENAI.EMAIL_VALIDATE,WKSP_MLEGENAI.SAMPLE_DATA_PKG,WKSP_MLEGENAI.GENERATE_SAMPLE_DATA,WKSP_MLEGENAI.NEW_BUNDLE_DATA,WKSP_MLEGENAI.VALIDATOR_MODULE
+ -- in our case we will export all 
+ SQL> project export
+    The current connection apexdev_medium WKSP_MLEGENAI will be used for all operations
+    *** INDEXES ***
+    *** PACKAGES ***
+    *** PACKAGE BODIES ***
+    *** TABLES ***
+    *** TRIGGERS ***
+    *** REF_CONSTRAINTS ***
+    *** GRANTS ***
+    *** APEX_APPLICATION ***
+    Exporting Workspace MLE_GENAI - application 122:Email Management App
+
+-- commit changes to git
+
+(base) SOMEYER@SOMEYER-mac DiY_articles % pwd
+/Users/SOMEYER/GitHub/DiY_articles
+(base) SOMEYER@SOMEYER-mac DiY_articles % git add .
+(base) SOMEYER@SOMEYER-mac DiY_articles % git commit -m "Initial database export using SQLcl"
+[main 66f866c] Initial database export using SQLcl
+ 37 files changed, 12858 insertions(+), 2 deletions(-)
+ create mode 100644 .dbtools/filters/project.filters
+ create mode 100644 .dbtools/project.config.json
+ create mode 100644 .dbtools/project.sqlformat.xml
+ create mode 100644 .gitignore
+ create mode 100644 dist/install.sql
+ create mode 100644 src/database/sys/object_grants/object_grants_as_grantor.sys.mle language.javascript.sql
+ create mode 100644 src/database/wksp_mlegenai/apex_apps/f122/f122.sql
+ create mode 100644 src/database/wksp_mlegenai/apex_apps/f122/readable/application/f122.yaml
+ create mode 100644 src/database/wksp_mlegenai/apex_apps/f122/readable/application/page_groups.yaml
+ create mode 100644 src/database/wksp_mlegenai/apex_apps/f122/readable/application/pages/p00000.yaml
+ create mode 100644 src/database/wksp_mlegenai/apex_apps/f122/readable/application/pages/p00001.yaml
+ create mode 100644 src/database/wksp_mlegenai/apex_apps/f122/readable/application/pages/p00002.yaml
+ create mode 100644 src/database/wksp_mlegenai/apex_apps/f122/readable/application/pages/p00003.yaml
+ create mode 100644 src/database/wksp_mlegenai/apex_apps/f122/readable/application/pages/p09999.yaml
+ create mode 100644 src/database/wksp_mlegenai/apex_apps/f122/readable/application/pages/p20000.yaml
+ create mode 100644 src/database/wksp_mlegenai/apex_apps/f122/readable/application/pages/p20010.yaml
+ create mode 100644 src/database/wksp_mlegenai/apex_apps/f122/readable/application/shared_components/app_static_files.yaml
+ create mode 100644 src/database/wksp_mlegenai/apex_apps/f122/readable/application/shared_components/authentications.yaml
+ create mode 100644 src/database/wksp_mlegenai/apex_apps/f122/readable/application/shared_components/authorizations.yaml
+ create mode 100644 src/database/wksp_mlegenai/apex_apps/f122/readable/application/shared_components/breadcrumbs.yaml
+ create mode 100644 src/database/wksp_mlegenai/apex_apps/f122/readable/application/shared_components/build_options.yaml
+ create mode 100644 src/database/wksp_mlegenai/apex_apps/f122/readable/application/shared_components/lists.yaml
+ create mode 100644 src/database/wksp_mlegenai/apex_apps/f122/readable/application/shared_components/lovs.yaml
+ create mode 100644 src/database/wksp_mlegenai/apex_apps/f122/readable/application/shared_components/theme_42/global_template_options.yaml
+ create mode 100644 src/database/wksp_mlegenai/apex_apps/f122/readable/application/shared_components/theme_42/universal_theme.yaml
+ create mode 100644 src/database/wksp_mlegenai/apex_apps/f122/readable/workspace/credentials.yaml
+ create mode 100644 src/database/wksp_mlegenai/indexes/email_content_indx_1.sql
+ create mode 100644 src/database/wksp_mlegenai/package_bodies/generate_sample_data.sql
+ create mode 100644 src/database/wksp_mlegenai/package_specs/generate_sample_data.sql
+ create mode 100644 src/database/wksp_mlegenai/package_specs/sample_data_pkg.sql
+ create mode 100644 src/database/wksp_mlegenai/ref_constraints/eml_email_content_recipient_fk.sql
+ create mode 100644 src/database/wksp_mlegenai/tables/eml_email_content.sql
+ create mode 100644 src/database/wksp_mlegenai/tables/eml_recipients.sql
+ create mode 100644 src/database/wksp_mlegenai/triggers/eml_email_content_biu.sql
+ create mode 100644 src/database/wksp_mlegenai/triggers/eml_recipients_biu.sql
+
+
+ (base) SOMEYER@SOMEYER-mac DiY_articles % git push
+Enumerating objects: 68, done.
+Counting objects: 100% (68/68), done.
+Delta compression using up to 10 threads
+Compressing objects: 100% (59/59), done.
+Writing objects: 100% (65/65), 605.43 KiB | 7.57 MiB/s, done.
+Total 65 (delta 9), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (9/9), done.
+To github.com:ORAsonjameyer/DiY_artic

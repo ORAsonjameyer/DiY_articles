@@ -1,0 +1,8 @@
+-- Script for working with database objects in Oracle SQL Dev Ext
+
+select * from v$version;
+select * from v$instance;
+select * from v$database
+
+select * from all_objects
+    where owner = 'WKSP_MLEGENAI';

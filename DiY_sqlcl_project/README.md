@@ -125,9 +125,16 @@ You can do this via your terminal or directly in Visual Studio Code.
 If you prefer working in the shell, navigate to your project directory and run:
 
 ```bash
+# Navigate into your local SQLcl project folder inside the Git repository
 cd /Users/SOMEYER/GitHub/DiY_articles/diy_articles
+
+# Stage all new and changed files for the next commit
 git add .
+
+# Create a new Git commit with a clear message describing what was done
 git commit -m "Initial database export using SQLcl"
+
+# Push your local commit to the remote GitHub repository
 git push
 ```
 

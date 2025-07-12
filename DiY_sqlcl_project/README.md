@@ -98,3 +98,39 @@ project export -list
 ```
 
 This concludes the basic setup and first export. You're now ready to move on to versioning with `project release` and beyond!
+
+
+
+## Step 4: Commit Your Project to Git
+
+Now that your database export is complete, it's time to version it using Git. This step ensures that your schema state, packages, and APEX applications are safely tracked and shareable with your team.
+
+You can do this via your terminal or directly in Visual Studio Code.
+
+### 💻 Option 1: Using VS Code
+
+1. Open the `DiY_articles` project folder in VS Code.
+2. Click on the **Source Control** icon on the left panel.
+3. Stage your changes (all new and modified files).
+4. Enter a commit message like:
+
+   ```
+   Initial database export using SQLcl
+   ```
+
+5. Click the checkmark ✓ to commit.
+
+### 🖥️ Option 2: Using Terminal
+
+If you prefer working in the shell, navigate to your project directory and run:
+
+```bash
+cd /Users/SOMEYER/GitHub/DiY_articles/diy_articles
+git add .
+git commit -m "Initial database export using SQLcl"
+git push
+```
+
+This will commit all project files into your local Git repository, preserving the exported state for future collaboration or automation.
+
+

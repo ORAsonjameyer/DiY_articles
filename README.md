@@ -2,4 +2,4 @@
 public environment for the Do it Yourself articles with free download of sources
 
 Project list:
-    1. SQLcl Project 
+    1. DiY_sqlcl_projects - SQLcl Project 

@@ -1,0 +1,24 @@
+# Installation script for podman envwith 23ai latest and APEX latest with ORDS latest
+
+## 23ai latest
+
+(base) SOMEYER@SOMEYER-mac ~ % pwd
+/Users/SOMEYER
+(base) SOMEYER@SOMEYER-mac ~ % cd dev/podman 
+(base) SOMEYER@SOMEYER-mac podman % podman pull ghcr.io/gvenzl/oracle-free:full-faststart
+Trying to pull ghcr.io/gvenzl/oracle-free:full-faststart...
+Getting image source signatures
+Copying blob sha256:60b642b37260b77fa17983e24ac98dee4886b1c2481a6328f370c9dfe38d89b3
+Copying blob sha256:03f3109bffdb8161ffa890c8de4dbf065fa8d54112f338a3d5de7d6bcbf0fda1
+Copying blob sha256:b53bd38caf1cf15479d41096fb3b394cffc7bdd84b1ecd3192e2171b3c0c0da8
+Copying blob sha256:9941295a2fb8f6cc0f06e3414b7c68b63294687c0b6c4d914fc32b8677155815
+Copying blob sha256:adea4aa8aaedfe6e51efe4105a09e4ef2fa639be1db288bd787d922221d5de96
+Copying blob sha256:700f4c74457ebca05868dc712165f79c1aca60f89b8bba7697cbbc36ed6cc1e9
+Copying blob sha256:0147761b496443edc93702cf686a0ab5633a03ee41f6c984ee68521094e1e0ea
+Copying blob sha256:d2e85e63b3a9c11b8fcd30de8219566dd9096c043328ee7f25b58afbbefeddd8
+Copying blob sha256:0e29b1364903dcfba30156ef5a3a1c46aea675d737e360fa6e918eea23fb5b0b
+Copying config sha256:c24b8971c1302c31bf40e8eec5b48c40bf4b7896187296ed70a11ea048853017
+Writing manifest to image destination
+c24b8971c1302c31bf40e8eec5b48c40bf4b7896187296ed70a11ea048853017
+
+

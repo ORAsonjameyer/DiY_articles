@@ -1,10 +1,17 @@
-# Oracle SQLcl Projects
-artifact/*
-var/*
+# Build artifacts
+artifact/
+var/
 *.tar.gz
-*.tz
 *.zip
 *.log
+
+# macOS system files
 **/.DS_Store
+
+# Oracle SQLcl
+*.tz
+
+# Sensitive or temp project files
+/DiY_podman23ai_APEX242/.env
 /DiY_podman23ai_APEX242/Info_Int_DiY_podman23ai_APEX242.md
 /DiY_sqlcl_project/Info_Int_DiY_sqlcl_project.md

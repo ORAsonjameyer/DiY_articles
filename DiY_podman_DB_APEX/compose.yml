@@ -1,0 +1,42 @@
+services:
+    oraclefree:
+        #image: ghcr.io/gvenzl/oracle-free:latest
+        #image: ghcr.io/gvenzl/oracle-free:full-faststart
+        image: ghcr.io/gvenzl/oracle-free:23.26.0
+        ports:
+            - 1521:1521
+        volumes:
+            - ora_db_vol26ai:/opt/oracle/oradata
+        networks:
+            - ora_app_network
+        healthcheck:
+            test: [ "CMD", "/opt/oracle/healthcheck.sh" ]
+            interval: 10s
+            timeout: 5s
+            retries: 10
+        environment:
+            - ORACLE_PASSWORD=${ORACLE_PASSWORD}
+
+    ords:
+        hostname: ords-node
+        image: container-registry.oracle.com/database/ords:latest
+        environment:
+            - CONN_STRING=${CONN_STRING}
+            - ORACLE_PWD=${ORACLE_PWD}
+        volumes:
+            - ords_config:/etc/ords/config
+            - ./apex-images:/opt/oracle/apex/images
+        ports:
+            - ${HOST_PORT}:8080
+        depends_on:
+            oraclefree:
+                condition: service_healthy
+        networks:
+            - ora_app_network
+
+volumes:
+    ora_db_vol26ai:
+    ords_config:
+
+networks:
+    ora_app_network:

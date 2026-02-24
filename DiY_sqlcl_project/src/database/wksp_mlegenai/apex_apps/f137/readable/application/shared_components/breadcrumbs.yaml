@@ -1,0 +1,49 @@
+---
+- # ====== Breadcrumb: Breadcrumb ==============================
+  id: 233229472025764013897
+  identification: 
+    name: Breadcrumb
+
+  entries: 
+  - # ====== Entry: Search posts =================================
+    id: 135392041759897798
+    identification: 
+      name: Search posts
+      page-number: 2
+
+    execution: 
+      sequence: 10
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:2:&APP_SESSION.::&DEBUG.:::'
+        page: 2 # Search posts
+
+  - # ====== Entry: Timeline Details =============================
+    id: 135402122461911959
+    identification: 
+      name: Timeline Details
+      page-number: 3
+
+    execution: 
+      sequence: 10
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:3:&APP_SESSION.::&DEBUG.:::'
+        page: 3 # Timeline Details
+
+  - # ====== Entry: Post Details =================================
+    id: 136367620075538794
+    identification: 
+      name: Post Details
+      page-number: 4
+
+    execution: 
+      sequence: 10
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:4:&SESSION.::&DEBUG.:::'
+        page: 4 # post details
+

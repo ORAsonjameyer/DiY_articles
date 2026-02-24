@@ -1,0 +1,239 @@
+---
+- # ====== REST Data Source: OCI VIsion ========================
+  id: 135375696835473726
+  identification: 
+    name: OCI VIsion
+
+  subscription: 
+    version-number: 45642313488691
+
+  source: 
+    type: OCI
+    remote-server: vision-aiservice-eu-frankfurt-1-oci-oraclecloud-com-20220125-actions # 135372073078444326
+    url-path-prefix: analyzeImage
+
+  authentication: 
+    credentials: apex_ai_cred # 135367033268236559
+
+  rest-synchronization: 
+    job-is-active: false
+    local-table-owner: Parsing Schema
+
+  advanced: 
+    static-id: oci_vision
+    pass-ecid: Application Default
+
+  data-profiles: 
+    id: 135374509176473720
+    identification: 
+      name: OCI VIsion
+
+    data-profile: 
+      format: JSON
+      row-selector: items
+      contains-single-row: false
+      use-raw-selectors: false
+
+    advanced: 
+      encoding: Database Character Set
+
+    columns: 
+    - # ====== Column: COLUMN_1_ID =================================
+      id: 135374711684473721
+      identification: 
+        column-name: COLUMN_1_ID
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: false
+
+      parsing: 
+        path-expression: id
+
+      remote-rest-data-source-server: 
+        filterable: true
+        is-common: true
+
+      advanced: 
+        sequence: 1
+        hidden: false
+
+    - # ====== Column: COLUMN_2_NAME ===============================
+      id: 135375040104473723
+      identification: 
+        column-name: COLUMN_2_NAME
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 2000
+        primary-key: false
+
+      parsing: 
+        path-expression: name
+
+      remote-rest-data-source-server: 
+        filterable: true
+        is-common: true
+
+      advanced: 
+        sequence: 2
+        hidden: false
+
+    - # ====== Column: COLUMN_3_HIREDATE ===========================
+      id: 135375349169473724
+      identification: 
+        column-name: COLUMN_3_HIREDATE
+
+      source: 
+        type: Data
+        data-type: DATE
+        primary-key: false
+
+      parsing: 
+        path-expression: hire-date
+        format-mask: 'YYYY-MM-DD"T"HH24:MI:SS'
+        has-time-zone: false
+
+      remote-rest-data-source-server: 
+        filterable: true
+        is-common: true
+
+      advanced: 
+        sequence: 3
+        hidden: false
+
+  operations: 
+  - # ====== Operation: GET ======================================
+    id: 135375882084473727
+    label: 
+      label: GET
+
+    operation: 
+      url-pattern: .
+      http-method: GET
+      database-operation: Fetch Rows
+
+    remote-cache: 
+      caching: Disabled
+
+    advanced: 
+      allow-fetching-all-rows: false
+      force-raise-http-404-error: false
+
+  - # ====== Operation: POST =====================================
+    id: 135376255691473729
+    label: 
+      label: POST
+
+    operation: 
+      url-pattern: .
+      http-method: POST
+      database-operation: Not Mapped
+      request-body-template: |
+        {
+            "compartmentId": "#COMPARTMENT_ID#",
+            "image": {
+            "source": "INLINE",
+            "data": "#FILE_DATA#"
+        },
+        "features": [
+        {
+                "featureType": "#FEATURE_TYPE#",
+                "maxResults": 5
+            }
+            ]
+        }
+
+    parameters: 
+    - # ====== Parameter: COMPARTMENT_ID ===========================
+      id: 135377729396478998
+      identification: 
+        name: COMPARTMENT_ID
+
+      parameter: 
+        type: Request or Response Body
+        data-type: String
+
+      value: 
+        direction: In
+        static: false
+        required: false
+
+    - # ====== Parameter: FILE_DATA ================================
+      id: 135378246448479001
+      identification: 
+        name: FILE_DATA
+
+      parameter: 
+        type: Request or Response Body
+        data-type: String
+
+      value: 
+        direction: In
+        static: false
+        required: false
+
+    - # ====== Parameter: FEATURE_TYPE =============================
+      id: 135378802222479002
+      identification: 
+        name: FEATURE_TYPE
+
+      parameter: 
+        type: Request or Response Body
+        data-type: String
+
+      value: 
+        direction: In
+        static: false
+        required: false
+
+    - # ====== Parameter: RESPONSE =================================
+      id: 135379305018482588
+      identification: 
+        name: RESPONSE
+
+      parameter: 
+        type: Request or Response Body
+
+      value: 
+        direction: Out
+
+    - # ====== Parameter: Content-Type =============================
+      id: 135379621772486907
+      identification: 
+        name: Content-Type
+
+      parameter: 
+        type: HTTP Header
+        data-type: String
+
+      value: 
+        direction: In
+        static: true
+        value: application/json
+
+      advanced: 
+        omit-when-value-is-empty: false
+
+  - # ====== Operation: PUT - /:id ===============================
+    id: 135376670736473730
+    label: 
+      label: 'PUT - /:id'
+
+    operation: 
+      url-pattern: '/:id'
+      http-method: PUT
+      database-operation: Update Row
+
+  - # ====== Operation: DELETE - /:id ============================
+    id: 135377052735473732
+    label: 
+      label: 'DELETE - /:id'
+
+    operation: 
+      url-pattern: '/:id'
+      http-method: DELETE
+      database-operation: Delete Row
+

@@ -1,0 +1,53 @@
+---
+- # ====== Application Process: SAVE_PHOTO =====================
+  id: 233498175520108085808
+  identification: 
+    name: SAVE_PHOTO
+    type: NATIVE_PLSQL
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      declare
+        l_photo_clob clob;
+        l_photo_blob blob;
+      begin
+        l_photo_clob := apex_application.g_clob_01;
+      
+        l_photo_blob := apex_web_service.clobbase642blob(
+                          p_clob => l_photo_clob
+                        );
+      
+        if not apex_collection.collection_exists('PHOTOS') then
+          apex_collection.create_collection(p_collection_name => 'PHOTOS');
+        end if;
+      
+        apex_collection.add_member(p_collection_name => 'PHOTOS', p_blob001 => l_photo_blob);
+      
+        apex_json.open_object;
+        apex_json.write(
+          p_name => 'result',
+          p_value => 'success'
+        );
+        apex_json.close_object;
+      exception
+        when others then
+          apex_json.open_object;
+          apex_json.write(
+            p_name => 'result',
+            p_value => 'fail'
+          );
+          apex_json.close_object;
+      end;
+
+  execution: 
+    sequence: 1
+    point: Ajax Callback
+
+  security: 
+    authorization-scheme: MODEL.LOV.MUST_NOT_BE_PUBLIC_USER
+
+  subscription: 
+    version-number: 41053651417829
+

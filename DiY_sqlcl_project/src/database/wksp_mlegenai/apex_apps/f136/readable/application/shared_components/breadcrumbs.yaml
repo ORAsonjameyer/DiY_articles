@@ -1,0 +1,49 @@
+---
+- # ====== Breadcrumb: Breadcrumb ==============================
+  id: 82180254725694969
+  identification: 
+    name: Breadcrumb
+
+  entries: 
+  - # ====== Entry: Email Recipients =============================
+    id: 82180472231694969
+    identification: 
+      name: Email Recipients
+      page-number: 1
+
+    execution: 
+      sequence: 10
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:1:&APP_SESSION.::&DEBUG.:::'
+        page: 1 # Email Recipients
+
+  - # ====== Entry: Emails Overview ==============================
+    id: 82212357868695122
+    identification: 
+      name: Emails Overview
+      page-number: 2
+
+    execution: 
+      sequence: 10
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:2:&APP_SESSION.::&DEBUG.:::'
+        page: 2 # Emails Overview
+
+  - # ====== Entry: Eml Email Content ============================
+    id: 82231928647695905
+    identification: 
+      name: Eml Email Content
+      page-number: 3
+
+    execution: 
+      sequence: 10
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:3:&APP_SESSION.::&DEBUG.:::'
+        page: 3 # Eml Email Content
+

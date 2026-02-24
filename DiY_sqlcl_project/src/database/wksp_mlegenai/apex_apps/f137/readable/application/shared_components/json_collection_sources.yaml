@@ -1,0 +1,1584 @@
+---
+- # ====== JSON Source: EXIF_SOURCE ============================
+  id: 136370548163605764
+  identification: 
+    name: EXIF_SOURCE
+
+  advanced: 
+    static-id: exif_source
+
+  source: 
+    json-source-type: Table with JSON column
+    location: Local Database
+    table-owner: Parsing Schema
+    table-name: SM_POSTS
+
+  subscription: 
+    version-number: 45642471589566
+
+  data-profiles: 
+  - # ====== Data Profile: EXIF_SOURCE ===========================
+    id: 136370611712605764
+    identification: 
+      name: EXIF_SOURCE
+
+    data-profile: 
+      format: JSON
+      row-selector: .
+      use-raw-selectors: false
+
+    advanced: 
+      encoding: Database Character Set
+
+    columns: 
+    - # ====== Column: ID ==========================================
+      id: 136370954372605783
+      identification: 
+        column-name: ID
+
+      source: 
+        type: Table Column
+        data-type: NUMBER
+        primary-key: true
+
+      parsing: 
+        table-column: ID
+
+      advanced: 
+        sequence: 1
+        hidden: false
+
+    - # ====== Column: POST_COMMENT ================================
+      id: 136371248095605785
+      identification: 
+        column-name: POST_COMMENT
+
+      source: 
+        type: Table Column
+        data-type: VARCHAR2
+        maximum-length: 4000
+        primary-key: false
+
+      parsing: 
+        table-column: POST_COMMENT
+
+      advanced: 
+        sequence: 2
+        hidden: false
+
+    - # ====== Column: FILE_BLOB ===================================
+      id: 136371527011605786
+      identification: 
+        column-name: FILE_BLOB
+
+      source: 
+        type: Table Column
+        data-type: BLOB
+        primary-key: false
+
+      parsing: 
+        table-column: FILE_BLOB
+
+      advanced: 
+        sequence: 3
+        hidden: false
+
+    - # ====== Column: FILE_MIME ===================================
+      id: 136371817441605788
+      identification: 
+        column-name: FILE_MIME
+
+      source: 
+        type: Table Column
+        data-type: VARCHAR2
+        maximum-length: 4000
+        primary-key: false
+
+      parsing: 
+        table-column: FILE_MIME
+
+      advanced: 
+        sequence: 4
+        hidden: false
+
+    - # ====== Column: FILE_NAME ===================================
+      id: 136372117792605789
+      identification: 
+        column-name: FILE_NAME
+
+      source: 
+        type: Table Column
+        data-type: VARCHAR2
+        maximum-length: 4000
+        primary-key: false
+
+      parsing: 
+        table-column: FILE_NAME
+
+      advanced: 
+        sequence: 5
+        hidden: false
+
+    - # ====== Column: LAT =========================================
+      id: 136372479356605790
+      identification: 
+        column-name: LAT
+
+      source: 
+        type: Table Column
+        data-type: NUMBER
+        primary-key: false
+
+      parsing: 
+        table-column: LAT
+
+      advanced: 
+        sequence: 6
+        hidden: false
+
+    - # ====== Column: LON =========================================
+      id: 136372749327605791
+      identification: 
+        column-name: LON
+
+      source: 
+        type: Table Column
+        data-type: NUMBER
+        primary-key: false
+
+      parsing: 
+        table-column: LON
+
+      advanced: 
+        sequence: 7
+        hidden: false
+
+    - # ====== Column: CREATED =====================================
+      id: 136373011564605793
+      identification: 
+        column-name: CREATED
+
+      source: 
+        type: Table Column
+        data-type: DATE
+        primary-key: false
+
+      parsing: 
+        table-column: CREATED
+        has-time-zone: false
+
+      advanced: 
+        sequence: 8
+        hidden: false
+
+    - # ====== Column: CREATED_BY ==================================
+      id: 136373366575605794
+      identification: 
+        column-name: CREATED_BY
+
+      source: 
+        type: Table Column
+        data-type: VARCHAR2
+        maximum-length: 4000
+        primary-key: false
+
+      parsing: 
+        table-column: CREATED_BY
+
+      advanced: 
+        sequence: 9
+        hidden: false
+
+    - # ====== Column: UPDATED =====================================
+      id: 136373695795605795
+      identification: 
+        column-name: UPDATED
+
+      source: 
+        type: Table Column
+        data-type: DATE
+        primary-key: false
+
+      parsing: 
+        table-column: UPDATED
+        has-time-zone: false
+
+      advanced: 
+        sequence: 10
+        hidden: false
+
+    - # ====== Column: UPDATED_BY ==================================
+      id: 136373924189605796
+      identification: 
+        column-name: UPDATED_BY
+
+      source: 
+        type: Table Column
+        data-type: VARCHAR2
+        maximum-length: 4000
+        primary-key: false
+
+      parsing: 
+        table-column: UPDATED_BY
+
+      advanced: 
+        sequence: 11
+        hidden: false
+
+    - # ====== Column: AI_OUTPUT ===================================
+      id: 136374212919605798
+      identification: 
+        column-name: AI_OUTPUT
+
+      source: 
+        type: Table Column
+        data-type: VARCHAR2
+        maximum-length: 4000
+        primary-key: false
+
+      parsing: 
+        table-column: AI_OUTPUT
+
+      advanced: 
+        sequence: 12
+        hidden: false
+
+    - # ====== Column: AI_OUTPUT_TD ================================
+      id: 136374550083605799
+      identification: 
+        column-name: AI_OUTPUT_TD
+
+      source: 
+        type: Table Column
+        data-type: VARCHAR2
+        maximum-length: 4000
+        primary-key: false
+
+      parsing: 
+        table-column: AI_OUTPUT_TD
+
+      advanced: 
+        sequence: 13
+        hidden: false
+
+    - # ====== Column: EXIF_DATA ===================================
+      id: 136374846574605801
+      identification: 
+        column-name: EXIF_DATA
+
+      source: 
+        type: Table Column
+        data-type: JSON Document
+        primary-key: false
+
+      parsing: 
+        table-column: EXIF_DATA
+
+      advanced: 
+        sequence: 14
+        hidden: false
+
+    - # ====== Column: ISO =========================================
+      id: 136375121789605802
+      identification: 
+        column-name: ISO
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: false
+
+      parsing: 
+        path-expression: ISO
+
+      advanced: 
+        sequence: 15
+        hidden: false
+
+    - # ====== Column: MAKE ========================================
+      id: 136375490012605803
+      identification: 
+        column-name: MAKE
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 32767
+        primary-key: false
+
+      parsing: 
+        path-expression: Make
+
+      advanced: 
+        sequence: 16
+        hidden: false
+
+    - # ====== Column: FLASH =======================================
+      id: 136375785200605804
+      identification: 
+        column-name: FLASH
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 32767
+        primary-key: false
+
+      parsing: 
+        path-expression: Flash
+
+      advanced: 
+        sequence: 17
+        hidden: false
+
+    - # ====== Column: MODEL =======================================
+      id: 136376101307605805
+      identification: 
+        column-name: MODEL
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 32767
+        primary-key: false
+
+      parsing: 
+        path-expression: Model
+
+      advanced: 
+        sequence: 18
+        hidden: false
+
+    - # ====== Column: FILTER ======================================
+      id: 136376385752605806
+      identification: 
+        column-name: FILTER
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 32767
+        primary-key: false
+
+      parsing: 
+        path-expression: Filter
+
+      advanced: 
+        sequence: 19
+        hidden: false
+
+    - # ====== Column: FNUMBER =====================================
+      id: 136376624143605808
+      identification: 
+        column-name: FNUMBER
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: false
+
+      parsing: 
+        path-expression: FNumber
+
+      advanced: 
+        sequence: 20
+        hidden: false
+
+    - # ====== Column: BITDEPTH ====================================
+      id: 136376911341605809
+      identification: 
+        column-name: BITDEPTH
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: false
+
+      parsing: 
+        path-expression: BitDepth
+
+      advanced: 
+        sequence: 21
+        hidden: false
+
+    - # ====== Column: GPSSPEED ====================================
+      id: 136377250218605810
+      identification: 
+        column-name: GPSSPEED
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: false
+
+      parsing: 
+        path-expression: GPSSpeed
+
+      advanced: 
+        sequence: 22
+        hidden: false
+
+    - # ====== Column: LENSINFO ====================================
+      id: 136377524240605811
+      identification: 
+        column-name: LENSINFO
+
+      source: 
+        type: Data
+        data-type: ARRAY
+        primary-key: false
+
+      parsing: 
+        path-expression: LensInfo
+
+      advanced: 
+        sequence: 23
+        hidden: false
+
+    - # ====== Column: LENSMAKE ====================================
+      id: 136377876241605813
+      identification: 
+        column-name: LENSMAKE
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 32767
+        primary-key: false
+
+      parsing: 
+        path-expression: LensMake
+
+      advanced: 
+        sequence: 24
+        hidden: false
+
+    - # ====== Column: SOFTWARE ====================================
+      id: 136378197703605814
+      identification: 
+        column-name: SOFTWARE
+
+      source: 
+        type: Data
+        data-type: DATE
+        primary-key: false
+
+      parsing: 
+        path-expression: Software
+        format-mask: DD"."MM"."RR
+        has-time-zone: false
+
+      advanced: 
+        sequence: 25
+        hidden: false
+
+    - # ====== Column: LATITUDE ====================================
+      id: 136378406487605815
+      identification: 
+        column-name: LATITUDE
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: false
+
+      parsing: 
+        path-expression: latitude
+
+      advanced: 
+        sequence: 26
+        hidden: false
+
+    - # ====== Column: COLORTYPE ===================================
+      id: 136378719688605816
+      identification: 
+        column-name: COLORTYPE
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 32767
+        primary-key: false
+
+      parsing: 
+        path-expression: ColorType
+
+      advanced: 
+        sequence: 27
+        hidden: false
+
+    - # ====== Column: INTERLACE ===================================
+      id: 136379093264605818
+      identification: 
+        column-name: INTERLACE
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 32767
+        primary-key: false
+
+      parsing: 
+        path-expression: Interlace
+
+      advanced: 
+        sequence: 28
+        hidden: false
+
+    - # ====== Column: LENSMODEL ===================================
+      id: 136379358605605819
+      identification: 
+        column-name: LENSMODEL
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 32767
+        primary-key: false
+
+      parsing: 
+        path-expression: LensModel
+
+      advanced: 
+        sequence: 29
+        hidden: false
+
+    - # ====== Column: SCENETYPE ===================================
+      id: 136379663783605820
+      identification: 
+        column-name: SCENETYPE
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 32767
+        primary-key: false
+
+      parsing: 
+        path-expression: SceneType
+
+      advanced: 
+        sequence: 30
+        hidden: false
+
+    - # ====== Column: TILEWIDTH ===================================
+      id: 136379976598605821
+      identification: 
+        column-name: TILEWIDTH
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: false
+
+      parsing: 
+        path-expression: TileWidth
+
+      advanced: 
+        sequence: 31
+        hidden: false
+
+    - # ====== Column: LONGITUDE ===================================
+      id: 136380267943605823
+      identification: 
+        column-name: LONGITUDE
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: false
+
+      parsing: 
+        path-expression: longitude
+
+      advanced: 
+        sequence: 32
+        hidden: false
+
+    - # ====== Column: CREATEDATE ==================================
+      id: 136380557621605824
+      identification: 
+        column-name: CREATEDATE
+
+      source: 
+        type: Data
+        data-type: TIMESTAMP WITH TIME ZONE
+        primary-key: false
+
+      parsing: 
+        path-expression: CreateDate
+        format-mask: 'YYYY"-"MM"-"DD"T"HH24":"MI:SS.FF9TZR'
+        has-time-zone: true
+
+      advanced: 
+        sequence: 33
+        hidden: false
+
+    - # ====== Column: IMAGEWIDTH ==================================
+      id: 136380890378605825
+      identification: 
+        column-name: IMAGEWIDTH
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: false
+
+      parsing: 
+        path-expression: ImageWidth
+
+      advanced: 
+        sequence: 34
+        hidden: false
+
+    - # ====== Column: MODIFYDATE ==================================
+      id: 136381115080605827
+      identification: 
+        column-name: MODIFYDATE
+
+      source: 
+        type: Data
+        data-type: TIMESTAMP WITH TIME ZONE
+        primary-key: false
+
+      parsing: 
+        path-expression: ModifyDate
+        format-mask: 'YYYY"-"MM"-"DD"T"HH24":"MI:SS.FF9TZR'
+        has-time-zone: true
+
+      advanced: 
+        sequence: 35
+        hidden: false
+
+    - # ====== Column: OFFSETTIME ==================================
+      id: 136381415485605828
+      identification: 
+        column-name: OFFSETTIME
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 32767
+        primary-key: false
+
+      parsing: 
+        path-expression: OffsetTime
+
+      advanced: 
+        sequence: 36
+        hidden: false
+
+    - # ====== Column: TILELENGTH ==================================
+      id: 136381710230605829
+      identification: 
+        column-name: TILELENGTH
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: false
+
+      parsing: 
+        path-expression: TileLength
+
+      advanced: 
+        sequence: 37
+        hidden: false
+
+    - # ====== Column: COMPRESSION =================================
+      id: 136382095753605830
+      identification: 
+        column-name: COMPRESSION
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 32767
+        primary-key: false
+
+      parsing: 
+        path-expression: Compression
+
+      advanced: 
+        sequence: 38
+        hidden: false
+
+    - # ====== Column: EXIFVERSION =================================
+      id: 136382366336605831
+      identification: 
+        column-name: EXIFVERSION
+
+      source: 
+        type: Data
+        data-type: DATE
+        primary-key: false
+
+      parsing: 
+        path-expression: ExifVersion
+        format-mask: DD"."MM"."RR
+        has-time-zone: false
+
+      advanced: 
+        sequence: 39
+        hidden: false
+
+    - # ====== Column: FOCALLENGTH =================================
+      id: 136382693126605833
+      identification: 
+        column-name: FOCALLENGTH
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: false
+
+      parsing: 
+        path-expression: FocalLength
+
+      advanced: 
+        sequence: 40
+        hidden: false
+
+    - # ====== Column: GPSALTITUDE =================================
+      id: 136382939232605834
+      identification: 
+        column-name: GPSALTITUDE
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: false
+
+      parsing: 
+        path-expression: GPSAltitude
+
+      advanced: 
+        sequence: 41
+        hidden: false
+
+    - # ====== Column: GPSLATITUDE =================================
+      id: 136383273709605835
+      identification: 
+        column-name: GPSLATITUDE
+
+      source: 
+        type: Data
+        data-type: ARRAY
+        primary-key: false
+
+      parsing: 
+        path-expression: GPSLatitude
+
+      advanced: 
+        sequence: 42
+        hidden: false
+
+    - # ====== Column: GPSSPEEDREF =================================
+      id: 136383596292605836
+      identification: 
+        column-name: GPSSPEEDREF
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 32767
+        primary-key: false
+
+      parsing: 
+        path-expression: GPSSpeedRef
+
+      advanced: 
+        sequence: 43
+        hidden: false
+
+    - # ====== Column: IMAGEHEIGHT =================================
+      id: 136383857887605837
+      identification: 
+        column-name: IMAGEHEIGHT
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: false
+
+      parsing: 
+        path-expression: ImageHeight
+
+      advanced: 
+        sequence: 44
+        hidden: false
+
+    - # ====== Column: ORIENTATION =================================
+      id: 136384169775605838
+      identification: 
+        column-name: ORIENTATION
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 32767
+        primary-key: false
+
+      parsing: 
+        path-expression: Orientation
+
+      advanced: 
+        sequence: 45
+        hidden: false
+
+    - # ====== Column: PROFILENAME =================================
+      id: 136384461166605840
+      identification: 
+        column-name: PROFILENAME
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 32767
+        primary-key: false
+
+      parsing: 
+        path-expression: ProfileName
+
+      advanced: 
+        sequence: 46
+        hidden: false
+
+    - # ====== Column: SUBJECTAREA =================================
+      id: 136384721954605841
+      identification: 
+        column-name: SUBJECTAREA
+
+      source: 
+        type: Data
+        data-type: ARRAY
+        primary-key: false
+
+      parsing: 
+        path-expression: SubjectArea
+
+      advanced: 
+        sequence: 47
+        hidden: false
+
+    - # ====== Column: XRESOLUTION =================================
+      id: 136385018352605842
+      identification: 
+        column-name: XRESOLUTION
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: false
+
+      parsing: 
+        path-expression: XResolution
+
+      advanced: 
+        sequence: 48
+        hidden: false
+
+    - # ====== Column: YRESOLUTION =================================
+      id: 136385380804605843
+      identification: 
+        column-name: YRESOLUTION
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: false
+
+      parsing: 
+        path-expression: YResolution
+
+      advanced: 
+        sequence: 49
+        hidden: false
+
+    - # ====== Column: EXPOSUREMODE ================================
+      id: 136385672353605844
+      identification: 
+        column-name: EXPOSUREMODE
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 32767
+        primary-key: false
+
+      parsing: 
+        path-expression: ExposureMode
+
+      advanced: 
+        sequence: 50
+        hidden: false
+
+    - # ====== Column: EXPOSURETIME ================================
+      id: 136385952488605846
+      identification: 
+        column-name: EXPOSURETIME
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: false
+
+      parsing: 
+        path-expression: ExposureTime
+
+      advanced: 
+        sequence: 51
+        hidden: false
+
+    - # ====== Column: GPSDATESTAMP ================================
+      id: 136386246017605847
+      identification: 
+        column-name: GPSDATESTAMP
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 32767
+        primary-key: false
+
+      parsing: 
+        path-expression: GPSDateStamp
+
+      advanced: 
+        sequence: 52
+        hidden: false
+
+    - # ====== Column: GPSLONGITUDE ================================
+      id: 136386541714605848
+      identification: 
+        column-name: GPSLONGITUDE
+
+      source: 
+        type: Data
+        data-type: ARRAY
+        primary-key: false
+
+      parsing: 
+        path-expression: GPSLongitude
+
+      advanced: 
+        sequence: 53
+        hidden: false
+
+    - # ====== Column: GPSTIMESTAMP ================================
+      id: 136386822117605849
+      identification: 
+        column-name: GPSTIMESTAMP
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 32767
+        primary-key: false
+
+      parsing: 
+        path-expression: GPSTimeStamp
+
+      advanced: 
+        sequence: 54
+        hidden: false
+
+    - # ====== Column: HOSTCOMPUTER ================================
+      id: 136387118794605851
+      identification: 
+        column-name: HOSTCOMPUTER
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 32767
+        primary-key: false
+
+      parsing: 
+        path-expression: HostComputer
+
+      advanced: 
+        sequence: 55
+        hidden: false
+
+    - # ====== Column: METERINGMODE ================================
+      id: 136387505118605852
+      identification: 
+        column-name: METERINGMODE
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 32767
+        primary-key: false
+
+      parsing: 
+        path-expression: MeteringMode
+
+      advanced: 
+        sequence: 56
+        hidden: false
+
+    - # ====== Column: WHITEBALANCE ================================
+      id: 136387747511605853
+      identification: 
+        column-name: WHITEBALANCE
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 32767
+        primary-key: false
+
+      parsing: 
+        path-expression: WhiteBalance
+
+      advanced: 
+        sequence: 57
+        hidden: false
+
+    - # ====== Column: APERTUREVALUE ===============================
+      id: 136388044709605854
+      identification: 
+        column-name: APERTUREVALUE
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: false
+
+      parsing: 
+        path-expression: ApertureValue
+
+      advanced: 
+        sequence: 58
+        hidden: false
+
+    - # ====== Column: SENSINGMETHOD ===============================
+      id: 136388370164605856
+      identification: 
+        column-name: SENSINGMETHOD
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 32767
+        primary-key: false
+
+      parsing: 
+        path-expression: SensingMethod
+
+      advanced: 
+        sequence: 59
+        hidden: false
+
+    - # ====== Column: COMPOSITEIMAGE ==============================
+      id: 136388655785605857
+      identification: 
+        column-name: COMPOSITEIMAGE
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 32767
+        primary-key: false
+
+      parsing: 
+        path-expression: CompositeImage
+
+      advanced: 
+        sequence: 60
+        hidden: false
+
+    - # ====== Column: EXIFIMAGEWIDTH ==============================
+      id: 136388918669605858
+      identification: 
+        column-name: EXIFIMAGEWIDTH
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: false
+
+      parsing: 
+        path-expression: ExifImageWidth
+
+      advanced: 
+        sequence: 61
+        hidden: false
+
+    - # ====== Column: GPSALTITUDEREF ==============================
+      id: 136389245380605860
+      identification: 
+        column-name: GPSALTITUDEREF
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 32767
+        primary-key: false
+
+      parsing: 
+        path-expression: GPSAltitudeRef
+
+      advanced: 
+        sequence: 62
+        hidden: false
+
+    - # ====== Column: GPSDESTBEARING ==============================
+      id: 136389577024605861
+      identification: 
+        column-name: GPSDESTBEARING
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: false
+
+      parsing: 
+        path-expression: GPSDestBearing
+
+      advanced: 
+        sequence: 63
+        hidden: false
+
+    - # ====== Column: GPSLATITUDEREF ==============================
+      id: 136389817764605862
+      identification: 
+        column-name: GPSLATITUDEREF
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 32767
+        primary-key: false
+
+      parsing: 
+        path-expression: GPSLatitudeRef
+
+      advanced: 
+        sequence: 64
+        hidden: false
+
+    - # ====== Column: RESOLUTIONUNIT ==============================
+      id: 136390166568605863
+      identification: 
+        column-name: RESOLUTIONUNIT
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 32767
+        primary-key: false
+
+      parsing: 
+        path-expression: ResolutionUnit
+
+      advanced: 
+        sequence: 65
+        hidden: false
+
+    - # ====== Column: BRIGHTNESSVALUE =============================
+      id: 136390446327605864
+      identification: 
+        column-name: BRIGHTNESSVALUE
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: false
+
+      parsing: 
+        path-expression: BrightnessValue
+
+      advanced: 
+        sequence: 66
+        hidden: false
+
+    - # ====== Column: EXIFIMAGEHEIGHT =============================
+      id: 136390791655605866
+      identification: 
+        column-name: EXIFIMAGEHEIGHT
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: false
+
+      parsing: 
+        path-expression: ExifImageHeight
+
+      advanced: 
+        sequence: 67
+        hidden: false
+
+    - # ====== Column: EXPOSUREPROGRAM =============================
+      id: 136391014873605867
+      identification: 
+        column-name: EXPOSUREPROGRAM
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 32767
+        primary-key: false
+
+      parsing: 
+        path-expression: ExposureProgram
+
+      advanced: 
+        sequence: 68
+        hidden: false
+
+    - # ====== Column: GPSIMGDIRECTION =============================
+      id: 136391310095605868
+      identification: 
+        column-name: GPSIMGDIRECTION
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: false
+
+      parsing: 
+        path-expression: GPSImgDirection
+
+      advanced: 
+        sequence: 69
+        hidden: false
+
+    - # ====== Column: GPSLONGITUDEREF =============================
+      id: 136391648399605869
+      identification: 
+        column-name: GPSLONGITUDEREF
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 32767
+        primary-key: false
+
+      parsing: 
+        path-expression: GPSLongitudeRef
+
+      advanced: 
+        sequence: 70
+        hidden: false
+
+    - # ====== Column: DATETIMEORIGINAL ============================
+      id: 136391995325605870
+      identification: 
+        column-name: DATETIMEORIGINAL
+
+      source: 
+        type: Data
+        data-type: TIMESTAMP WITH TIME ZONE
+        primary-key: false
+
+      parsing: 
+        path-expression: DateTimeOriginal
+        format-mask: 'YYYY"-"MM"-"DD"T"HH24":"MI:SS.FF9TZR'
+        has-time-zone: true
+
+      advanced: 
+        sequence: 71
+        hidden: false
+
+    - # ====== Column: GPSDESTBEARINGREF ===========================
+      id: 136392243370605871
+      identification: 
+        column-name: GPSDESTBEARINGREF
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 32767
+        primary-key: false
+
+      parsing: 
+        path-expression: GPSDestBearingRef
+
+      advanced: 
+        sequence: 72
+        hidden: false
+
+    - # ====== Column: SHUTTERSPEEDVALUE ===========================
+      id: 136392592998605872
+      identification: 
+        column-name: SHUTTERSPEEDVALUE
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: false
+
+      parsing: 
+        path-expression: ShutterSpeedValue
+
+      advanced: 
+        sequence: 73
+        hidden: false
+
+    - # ====== Column: GPSIMGDIRECTIONREF ==========================
+      id: 136392847158605874
+      identification: 
+        column-name: GPSIMGDIRECTIONREF
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 32767
+        primary-key: false
+
+      parsing: 
+        path-expression: GPSImgDirectionRef
+
+      advanced: 
+        sequence: 74
+        hidden: false
+
+    - # ====== Column: OFFSETTIMEORIGINAL ==========================
+      id: 136393164135605875
+      identification: 
+        column-name: OFFSETTIMEORIGINAL
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 32767
+        primary-key: false
+
+      parsing: 
+        path-expression: OffsetTimeOriginal
+
+      advanced: 
+        sequence: 75
+        hidden: false
+
+    - # ====== Column: SUBSECTIMEORIGINAL ==========================
+      id: 136393435795605876
+      identification: 
+        column-name: SUBSECTIMEORIGINAL
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: false
+
+      parsing: 
+        path-expression: SubSecTimeOriginal
+
+      advanced: 
+        sequence: 76
+        hidden: false
+
+    - # ====== Column: OFFSETTIMEDIGITIZED =========================
+      id: 136393781114605877
+      identification: 
+        column-name: OFFSETTIMEDIGITIZED
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 32767
+        primary-key: false
+
+      parsing: 
+        path-expression: OffsetTimeDigitized
+
+      advanced: 
+        sequence: 77
+        hidden: false
+
+    - # ====== Column: SUBSECTIMEDIGITIZED =========================
+      id: 136394034700605879
+      identification: 
+        column-name: SUBSECTIMEDIGITIZED
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: false
+
+      parsing: 
+        path-expression: SubSecTimeDigitized
+
+      advanced: 
+        sequence: 78
+        hidden: false
+
+    - # ====== Column: EXPOSURECOMPENSATION ========================
+      id: 136394375744605880
+      identification: 
+        column-name: EXPOSURECOMPENSATION
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: false
+
+      parsing: 
+        path-expression: ExposureCompensation
+
+      advanced: 
+        sequence: 79
+        hidden: false
+
+    - # ====== Column: GPSHPOSITIONINGERROR ========================
+      id: 136394629333605881
+      identification: 
+        column-name: GPSHPOSITIONINGERROR
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: false
+
+      parsing: 
+        path-expression: GPSHPositioningError
+
+      advanced: 
+        sequence: 80
+        hidden: false
+
+    - # ====== Column: FOCALLENGTHIN35MMFORMAT =====================
+      id: 136394977546605882
+      identification: 
+        column-name: FOCALLENGTHIN35MMFORMAT
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: false
+
+      parsing: 
+        path-expression: FocalLengthIn35mmFormat
+
+      advanced: 
+        sequence: 81
+        hidden: false
+
+    - # ====== Column: GPSLATITUDE2 ================================
+      id: 136395262277605884
+      identification: 
+        column-name: GPSLATITUDE2
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: false
+
+      parsing: 
+        path-expression: .
+
+      advanced: 
+        sequence: 82
+        hidden: false
+
+    - # ====== Column: GPSLATITUDE_POS =============================
+      id: 136395573868605885
+      identification: 
+        column-name: GPSLATITUDE_POS
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: false
+
+      advanced: 
+        sequence: 83
+        hidden: false
+
+    - # ====== Column: GPSLONGITUDE2 ===============================
+      id: 136395855897605886
+      identification: 
+        column-name: GPSLONGITUDE2
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: false
+
+      parsing: 
+        path-expression: .
+
+      advanced: 
+        sequence: 84
+        hidden: false
+
+    - # ====== Column: GPSLONGITUDE_POS ============================
+      id: 136396161210605887
+      identification: 
+        column-name: GPSLONGITUDE_POS
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: false
+
+      advanced: 
+        sequence: 85
+        hidden: false
+
+    - # ====== Column: LENSINFO2 ===================================
+      id: 136396481267605889
+      identification: 
+        column-name: LENSINFO2
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: false
+
+      parsing: 
+        path-expression: .
+
+      advanced: 
+        sequence: 86
+        hidden: false
+
+    - # ====== Column: LENSINFO_POS ================================
+      id: 136396722687605890
+      identification: 
+        column-name: LENSINFO_POS
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: false
+
+      advanced: 
+        sequence: 87
+        hidden: false
+
+    - # ====== Column: SUBJECTAREA2 ================================
+      id: 136397043158605891
+      identification: 
+        column-name: SUBJECTAREA2
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: false
+
+      parsing: 
+        path-expression: .
+
+      advanced: 
+        sequence: 88
+        hidden: false
+
+    - # ====== Column: SUBJECTAREA_POS =============================
+      id: 136397366583605893
+      identification: 
+        column-name: SUBJECTAREA_POS
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: false
+
+      advanced: 
+        sequence: 89
+        hidden: false
+

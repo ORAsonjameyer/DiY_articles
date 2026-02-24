@@ -1,0 +1,18 @@
+# Build artifacts
+artifact/
+var/
+*.tar.gz
+*.zip
+*.log
+
+# macOS system files
+**/.DS_Store
+
+# Oracle SQLcl
+*.tz
+
+# Sensitive or temp project files
+/DiY_podman_DB_APEX/.env
+/DiY_podman_DB_APEX/Info_Int_DiY_podman23ai_APEX242.md
+/DiY_podman_DB_APEX/compose_old.yml
+/DiY_sqlcl_project/Info_Int_DiY_sqlcl_project.md

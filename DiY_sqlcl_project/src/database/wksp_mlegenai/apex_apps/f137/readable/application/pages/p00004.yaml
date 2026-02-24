@@ -1,0 +1,2789 @@
+---
+# ====== Page: post details ==================================
+id: 4
+identification: 
+  name: post details
+  alias: POST-DETAILS
+  title: Details
+
+appearance: 
+  page-mode: Normal
+  page-template: Theme Default
+  template-options: 
+  - '#DEFAULT#'
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: true
+
+security: 
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Only for Success
+
+server-cache: 
+  caching: Disabled
+
+regions: 
+- # ====== Region: Summary =====================================
+  id: 133865455986133731
+  identification: 
+    name: Summary
+    type: Static Content
+
+  source: 
+    html-code: <p>This page summarises all the details about this post</p>
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Photo =======================================
+  id: 133865603695133732
+  identification: 
+    name: Photo
+    type: Static Content
+
+  layout: 
+    sequence: 10
+    parent-region: Summary # 133865455986133731
+    slot: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Breadcrumb ==================================
+  id: 136367199540538784
+  identification: 
+    name: Breadcrumb
+    type: Breadcrumb
+
+  source: 
+    breadcrumb: Breadcrumb # 233229472025764013897
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    slot: REGION_POSITION_01
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Title Bar
+    template-options: 
+    - '#DEFAULT#'
+    - t-BreadcrumbRegion--useBreadcrumbTitle
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    appearance: 
+      breadcrumb-template: Breadcrumb
+      template-options: 
+      - '#DEFAULT#'
+
+- # ====== Region: EXIF DATA ===================================
+  id: 136421220053630836
+  identification: 
+    name: EXIF DATA
+    title: EXIF Data
+    type: Classic Report
+
+  source: 
+    location: JSON Source
+    json-source: EXIF_SOURCE # 136370548163605764
+
+  data-profile: 
+    nested-rows: None
+
+  local-post-processing: 
+    type: Where/Order By Clause
+    where-clause: 'id = :P4_ID'
+    order-by-type: None
+
+  layout: 
+    sequence: 20
+    parent-region: Summary # 133865455986133731
+    slot: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    layout: 
+      number-of-rows-type: Static Value
+      number-of-rows: 15
+
+    appearance: 
+      template-type: Theme
+      template: Value Attribute Pairs - Column
+      template-options: 
+      - '#DEFAULT#'
+      - t-AVPList--leftAligned
+
+    pagination: 
+      type: Row Ranges X to Y (with next and previous links)
+      display-position: Bottom - Right
+      partial-page-refresh: true
+
+    performance: 
+      lazy-loading: false
+
+    break-formatting: 
+      break-columns: No Break
+
+    advanced: 
+      strip-html: false
+      sort-nulls: Last
+
+    heading: 
+      type: Custom Headings
+
+    download: 
+      csv-export-enabled: false
+
+    printing: 
+      enabled: false
+
+  columns: 
+  - # ====== Column: ID ==========================================
+    id: 136421399319630837
+    identification: 
+      column-name: ID
+      type: Hidden
+
+    layout: 
+      sequence: 10
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: CREATED =====================================
+    id: 136422075560630844
+    identification: 
+      column-name: CREATED
+      type: Plain Text
+
+    heading: 
+      heading: Created
+      alignment: start
+
+    layout: 
+      sequence: 80
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: CREATED_BY ==================================
+    id: 136422107749630845
+    identification: 
+      column-name: CREATED_BY
+      type: Plain Text
+
+    heading: 
+      heading: Created By
+      alignment: start
+
+    layout: 
+      sequence: 90
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: UPDATED =====================================
+    id: 136422208722630846
+    identification: 
+      column-name: UPDATED
+      type: Plain Text
+
+    heading: 
+      heading: Updated
+      alignment: start
+
+    layout: 
+      sequence: 100
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: UPDATED_BY ==================================
+    id: 136422364989630847
+    identification: 
+      column-name: UPDATED_BY
+      type: Plain Text
+
+    heading: 
+      heading: Updated By
+      alignment: start
+
+    layout: 
+      sequence: 110
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: AI_OUTPUT ===================================
+    id: 136422485349630848
+    identification: 
+      column-name: AI_OUTPUT
+      type: Plain Text
+
+    heading: 
+      heading: Ai Output
+      alignment: start
+
+    layout: 
+      sequence: 120
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: AI_OUTPUT_TD ================================
+    id: 136422564379630849
+    identification: 
+      column-name: AI_OUTPUT_TD
+      type: Plain Text
+
+    heading: 
+      heading: Ai Output Td
+      alignment: start
+
+    layout: 
+      sequence: 130
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: ISO =========================================
+    id: 136422640308630850
+    identification: 
+      column-name: ISO
+      type: Plain Text
+
+    heading: 
+      heading: Iso
+      alignment: end
+
+    layout: 
+      sequence: 140
+      column-alignment: end
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: MAKE ========================================
+    id: 136422747184630851
+    identification: 
+      column-name: MAKE
+      type: Plain Text
+
+    heading: 
+      heading: Make
+      alignment: start
+
+    layout: 
+      sequence: 150
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: FLASH =======================================
+    id: 136422828024630852
+    identification: 
+      column-name: FLASH
+      type: Plain Text
+
+    heading: 
+      heading: Flash
+      alignment: start
+
+    layout: 
+      sequence: 160
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: MODEL =======================================
+    id: 136422958033630853
+    identification: 
+      column-name: MODEL
+      type: Plain Text
+
+    heading: 
+      heading: Model
+      alignment: start
+
+    layout: 
+      sequence: 170
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: FILTER ======================================
+    id: 136423034444630854
+    identification: 
+      column-name: FILTER
+      type: Plain Text
+
+    heading: 
+      heading: Filter
+      alignment: start
+
+    layout: 
+      sequence: 180
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: FNUMBER =====================================
+    id: 136423152271630855
+    identification: 
+      column-name: FNUMBER
+      type: Plain Text
+
+    heading: 
+      heading: Fnumber
+      alignment: end
+
+    layout: 
+      sequence: 190
+      column-alignment: end
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: BITDEPTH ====================================
+    id: 136423295963630856
+    identification: 
+      column-name: BITDEPTH
+      type: Plain Text
+
+    heading: 
+      heading: Bitdepth
+      alignment: end
+
+    layout: 
+      sequence: 200
+      column-alignment: end
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: GPSSPEED ====================================
+    id: 136423309864630857
+    identification: 
+      column-name: GPSSPEED
+      type: Plain Text
+
+    heading: 
+      heading: Gpsspeed
+      alignment: end
+
+    layout: 
+      sequence: 210
+      column-alignment: end
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: LENSINFO ====================================
+    id: 136423481006630858
+    identification: 
+      column-name: LENSINFO
+      type: Plain Text
+
+    heading: 
+      heading: Lensinfo
+      alignment: start
+
+    layout: 
+      sequence: 220
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: LENSMAKE ====================================
+    id: 136447884759689809
+    identification: 
+      column-name: LENSMAKE
+      type: Plain Text
+
+    heading: 
+      heading: Lensmake
+      alignment: start
+
+    layout: 
+      sequence: 230
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: SOFTWARE ====================================
+    id: 136447927384689810
+    identification: 
+      column-name: SOFTWARE
+      type: Plain Text
+
+    heading: 
+      heading: Software
+      alignment: start
+
+    layout: 
+      sequence: 240
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: LATITUDE ====================================
+    id: 136448088256689811
+    identification: 
+      column-name: LATITUDE
+      type: Plain Text
+
+    heading: 
+      heading: Latitude
+      alignment: end
+
+    layout: 
+      sequence: 250
+      column-alignment: end
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: COLORTYPE ===================================
+    id: 136448151400689812
+    identification: 
+      column-name: COLORTYPE
+      type: Plain Text
+
+    heading: 
+      heading: Colortype
+      alignment: start
+
+    layout: 
+      sequence: 260
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: INTERLACE ===================================
+    id: 136448253960689813
+    identification: 
+      column-name: INTERLACE
+      type: Plain Text
+
+    heading: 
+      heading: Interlace
+      alignment: start
+
+    layout: 
+      sequence: 270
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: LENSMODEL ===================================
+    id: 136448318029689814
+    identification: 
+      column-name: LENSMODEL
+      type: Plain Text
+
+    heading: 
+      heading: Lensmodel
+      alignment: start
+
+    layout: 
+      sequence: 280
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: SCENETYPE ===================================
+    id: 136448468539689815
+    identification: 
+      column-name: SCENETYPE
+      type: Plain Text
+
+    heading: 
+      heading: Scenetype
+      alignment: start
+
+    layout: 
+      sequence: 290
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: TILEWIDTH ===================================
+    id: 136448520486689816
+    identification: 
+      column-name: TILEWIDTH
+      type: Plain Text
+
+    heading: 
+      heading: Tilewidth
+      alignment: end
+
+    layout: 
+      sequence: 300
+      column-alignment: end
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: LONGITUDE ===================================
+    id: 136448656210689817
+    identification: 
+      column-name: LONGITUDE
+      type: Plain Text
+
+    heading: 
+      heading: Longitude
+      alignment: end
+
+    layout: 
+      sequence: 310
+      column-alignment: end
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: CREATEDATE ==================================
+    id: 136448788329689818
+    identification: 
+      column-name: CREATEDATE
+      type: Plain Text
+
+    heading: 
+      heading: Createdate
+      alignment: start
+
+    layout: 
+      sequence: 320
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: IMAGEWIDTH ==================================
+    id: 136448873275689819
+    identification: 
+      column-name: IMAGEWIDTH
+      type: Plain Text
+
+    heading: 
+      heading: Imagewidth
+      alignment: end
+
+    layout: 
+      sequence: 330
+      column-alignment: end
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: MODIFYDATE ==================================
+    id: 136448954441689820
+    identification: 
+      column-name: MODIFYDATE
+      type: Plain Text
+
+    heading: 
+      heading: Modifydate
+      alignment: start
+
+    layout: 
+      sequence: 340
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: OFFSETTIME ==================================
+    id: 136449047387689821
+    identification: 
+      column-name: OFFSETTIME
+      type: Plain Text
+
+    heading: 
+      heading: Offsettime
+      alignment: start
+
+    layout: 
+      sequence: 350
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: TILELENGTH ==================================
+    id: 136449185033689822
+    identification: 
+      column-name: TILELENGTH
+      type: Plain Text
+
+    heading: 
+      heading: Tilelength
+      alignment: end
+
+    layout: 
+      sequence: 360
+      column-alignment: end
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: COMPRESSION =================================
+    id: 136449266313689823
+    identification: 
+      column-name: COMPRESSION
+      type: Plain Text
+
+    heading: 
+      heading: Compression
+      alignment: start
+
+    layout: 
+      sequence: 370
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: EXIFVERSION =================================
+    id: 136449404814689824
+    identification: 
+      column-name: EXIFVERSION
+      type: Plain Text
+
+    heading: 
+      heading: Exifversion
+      alignment: start
+
+    layout: 
+      sequence: 380
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: FOCALLENGTH =================================
+    id: 136449418219689825
+    identification: 
+      column-name: FOCALLENGTH
+      type: Plain Text
+
+    heading: 
+      heading: Focallength
+      alignment: end
+
+    layout: 
+      sequence: 390
+      column-alignment: end
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: GPSALTITUDE =================================
+    id: 136449572284689826
+    identification: 
+      column-name: GPSALTITUDE
+      type: Plain Text
+
+    heading: 
+      heading: Gpsaltitude
+      alignment: end
+
+    layout: 
+      sequence: 400
+      column-alignment: end
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: GPSLATITUDE =================================
+    id: 136449662233689827
+    identification: 
+      column-name: GPSLATITUDE
+      type: Plain Text
+
+    heading: 
+      heading: Gpslatitude
+      alignment: start
+
+    layout: 
+      sequence: 410
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: GPSSPEEDREF =================================
+    id: 136449761821689828
+    identification: 
+      column-name: GPSSPEEDREF
+      type: Plain Text
+
+    heading: 
+      heading: Gpsspeedref
+      alignment: start
+
+    layout: 
+      sequence: 420
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: IMAGEHEIGHT =================================
+    id: 136449835570689829
+    identification: 
+      column-name: IMAGEHEIGHT
+      type: Plain Text
+
+    heading: 
+      heading: Imageheight
+      alignment: end
+
+    layout: 
+      sequence: 430
+      column-alignment: end
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: ORIENTATION =================================
+    id: 136449944018689830
+    identification: 
+      column-name: ORIENTATION
+      type: Plain Text
+
+    heading: 
+      heading: Orientation
+      alignment: start
+
+    layout: 
+      sequence: 440
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: PROFILENAME =================================
+    id: 136450038907689831
+    identification: 
+      column-name: PROFILENAME
+      type: Plain Text
+
+    heading: 
+      heading: Profilename
+      alignment: start
+
+    layout: 
+      sequence: 450
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: SUBJECTAREA =================================
+    id: 136450119993689832
+    identification: 
+      column-name: SUBJECTAREA
+      type: Plain Text
+
+    heading: 
+      heading: Subjectarea
+      alignment: start
+
+    layout: 
+      sequence: 460
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: XRESOLUTION =================================
+    id: 136450263221689833
+    identification: 
+      column-name: XRESOLUTION
+      type: Plain Text
+
+    heading: 
+      heading: Xresolution
+      alignment: end
+
+    layout: 
+      sequence: 470
+      column-alignment: end
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: YRESOLUTION =================================
+    id: 136450386359689834
+    identification: 
+      column-name: YRESOLUTION
+      type: Plain Text
+
+    heading: 
+      heading: Yresolution
+      alignment: end
+
+    layout: 
+      sequence: 480
+      column-alignment: end
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: EXPOSUREMODE ================================
+    id: 136450439760689835
+    identification: 
+      column-name: EXPOSUREMODE
+      type: Plain Text
+
+    heading: 
+      heading: Exposuremode
+      alignment: start
+
+    layout: 
+      sequence: 490
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: EXPOSURETIME ================================
+    id: 136450550495689836
+    identification: 
+      column-name: EXPOSURETIME
+      type: Plain Text
+
+    heading: 
+      heading: Exposuretime
+      alignment: end
+
+    layout: 
+      sequence: 500
+      column-alignment: end
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: GPSDATESTAMP ================================
+    id: 136450679188689837
+    identification: 
+      column-name: GPSDATESTAMP
+      type: Plain Text
+
+    heading: 
+      heading: Gpsdatestamp
+      alignment: start
+
+    layout: 
+      sequence: 510
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: GPSLONGITUDE ================================
+    id: 136450754042689838
+    identification: 
+      column-name: GPSLONGITUDE
+      type: Plain Text
+
+    heading: 
+      heading: Gpslongitude
+      alignment: start
+
+    layout: 
+      sequence: 520
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: GPSTIMESTAMP ================================
+    id: 136450867742689839
+    identification: 
+      column-name: GPSTIMESTAMP
+      type: Plain Text
+
+    heading: 
+      heading: Gpstimestamp
+      alignment: start
+
+    layout: 
+      sequence: 530
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: HOSTCOMPUTER ================================
+    id: 136450972761689840
+    identification: 
+      column-name: HOSTCOMPUTER
+      type: Plain Text
+
+    heading: 
+      heading: Hostcomputer
+      alignment: start
+
+    layout: 
+      sequence: 540
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: METERINGMODE ================================
+    id: 136451026561689841
+    identification: 
+      column-name: METERINGMODE
+      type: Plain Text
+
+    heading: 
+      heading: Meteringmode
+      alignment: start
+
+    layout: 
+      sequence: 550
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: WHITEBALANCE ================================
+    id: 136451140833689842
+    identification: 
+      column-name: WHITEBALANCE
+      type: Plain Text
+
+    heading: 
+      heading: Whitebalance
+      alignment: start
+
+    layout: 
+      sequence: 560
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: APERTUREVALUE ===============================
+    id: 136451253417689843
+    identification: 
+      column-name: APERTUREVALUE
+      type: Plain Text
+
+    heading: 
+      heading: Aperturevalue
+      alignment: end
+
+    layout: 
+      sequence: 570
+      column-alignment: end
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: SENSINGMETHOD ===============================
+    id: 136451322997689844
+    identification: 
+      column-name: SENSINGMETHOD
+      type: Plain Text
+
+    heading: 
+      heading: Sensingmethod
+      alignment: start
+
+    layout: 
+      sequence: 580
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: COMPOSITEIMAGE ==============================
+    id: 136451442505689845
+    identification: 
+      column-name: COMPOSITEIMAGE
+      type: Plain Text
+
+    heading: 
+      heading: Compositeimage
+      alignment: start
+
+    layout: 
+      sequence: 590
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: EXIFIMAGEWIDTH ==============================
+    id: 136451519438689846
+    identification: 
+      column-name: EXIFIMAGEWIDTH
+      type: Plain Text
+
+    heading: 
+      heading: Exifimagewidth
+      alignment: end
+
+    layout: 
+      sequence: 600
+      column-alignment: end
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: GPSALTITUDEREF ==============================
+    id: 136451700100689847
+    identification: 
+      column-name: GPSALTITUDEREF
+      type: Plain Text
+
+    heading: 
+      heading: Gpsaltituderef
+      alignment: start
+
+    layout: 
+      sequence: 610
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: GPSDESTBEARING ==============================
+    id: 136451711369689848
+    identification: 
+      column-name: GPSDESTBEARING
+      type: Plain Text
+
+    heading: 
+      heading: Gpsdestbearing
+      alignment: end
+
+    layout: 
+      sequence: 620
+      column-alignment: end
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: GPSLATITUDEREF ==============================
+    id: 136451839352689849
+    identification: 
+      column-name: GPSLATITUDEREF
+      type: Plain Text
+
+    heading: 
+      heading: Gpslatituderef
+      alignment: start
+
+    layout: 
+      sequence: 630
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: RESOLUTIONUNIT ==============================
+    id: 136451946494689850
+    identification: 
+      column-name: RESOLUTIONUNIT
+      type: Plain Text
+
+    heading: 
+      heading: Resolutionunit
+      alignment: start
+
+    layout: 
+      sequence: 640
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: BRIGHTNESSVALUE =============================
+    id: 136452016707689851
+    identification: 
+      column-name: BRIGHTNESSVALUE
+      type: Plain Text
+
+    heading: 
+      heading: Brightnessvalue
+      alignment: end
+
+    layout: 
+      sequence: 650
+      column-alignment: end
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: EXIFIMAGEHEIGHT =============================
+    id: 136452170444689852
+    identification: 
+      column-name: EXIFIMAGEHEIGHT
+      type: Plain Text
+
+    heading: 
+      heading: Exifimageheight
+      alignment: end
+
+    layout: 
+      sequence: 660
+      column-alignment: end
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: EXPOSUREPROGRAM =============================
+    id: 136452214101689853
+    identification: 
+      column-name: EXPOSUREPROGRAM
+      type: Plain Text
+
+    heading: 
+      heading: Exposureprogram
+      alignment: start
+
+    layout: 
+      sequence: 670
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: GPSIMGDIRECTION =============================
+    id: 136452365373689854
+    identification: 
+      column-name: GPSIMGDIRECTION
+      type: Plain Text
+
+    heading: 
+      heading: Gpsimgdirection
+      alignment: end
+
+    layout: 
+      sequence: 680
+      column-alignment: end
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: GPSLONGITUDEREF =============================
+    id: 136452426722689855
+    identification: 
+      column-name: GPSLONGITUDEREF
+      type: Plain Text
+
+    heading: 
+      heading: Gpslongituderef
+      alignment: start
+
+    layout: 
+      sequence: 690
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: DATETIMEORIGINAL ============================
+    id: 136452514847689856
+    identification: 
+      column-name: DATETIMEORIGINAL
+      type: Plain Text
+
+    heading: 
+      heading: Datetimeoriginal
+      alignment: start
+
+    layout: 
+      sequence: 700
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: GPSDESTBEARINGREF ===========================
+    id: 136452610057689857
+    identification: 
+      column-name: GPSDESTBEARINGREF
+      type: Plain Text
+
+    heading: 
+      heading: Gpsdestbearingref
+      alignment: start
+
+    layout: 
+      sequence: 710
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: SHUTTERSPEEDVALUE ===========================
+    id: 136452725441689858
+    identification: 
+      column-name: SHUTTERSPEEDVALUE
+      type: Plain Text
+
+    heading: 
+      heading: Shutterspeedvalue
+      alignment: end
+
+    layout: 
+      sequence: 720
+      column-alignment: end
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: GPSIMGDIRECTIONREF ==========================
+    id: 136452893882689809
+    identification: 
+      column-name: GPSIMGDIRECTIONREF
+      type: Plain Text
+
+    heading: 
+      heading: Gpsimgdirectionref
+      alignment: start
+
+    layout: 
+      sequence: 730
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: OFFSETTIMEORIGINAL ==========================
+    id: 136452926199689810
+    identification: 
+      column-name: OFFSETTIMEORIGINAL
+      type: Plain Text
+
+    heading: 
+      heading: Offsettimeoriginal
+      alignment: start
+
+    layout: 
+      sequence: 740
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: SUBSECTIMEORIGINAL ==========================
+    id: 136453007757689811
+    identification: 
+      column-name: SUBSECTIMEORIGINAL
+      type: Plain Text
+
+    heading: 
+      heading: Subsectimeoriginal
+      alignment: end
+
+    layout: 
+      sequence: 750
+      column-alignment: end
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: OFFSETTIMEDIGITIZED =========================
+    id: 136453154934689812
+    identification: 
+      column-name: OFFSETTIMEDIGITIZED
+      type: Plain Text
+
+    heading: 
+      heading: Offsettimedigitized
+      alignment: start
+
+    layout: 
+      sequence: 760
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: SUBSECTIMEDIGITIZED =========================
+    id: 136453274333689813
+    identification: 
+      column-name: SUBSECTIMEDIGITIZED
+      type: Plain Text
+
+    heading: 
+      heading: Subsectimedigitized
+      alignment: end
+
+    layout: 
+      sequence: 770
+      column-alignment: end
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: EXPOSURECOMPENSATION ========================
+    id: 136453403716689814
+    identification: 
+      column-name: EXPOSURECOMPENSATION
+      type: Plain Text
+
+    heading: 
+      heading: Exposurecompensation
+      alignment: end
+
+    layout: 
+      sequence: 780
+      column-alignment: end
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: GPSHPOSITIONINGERROR ========================
+    id: 136453443929689815
+    identification: 
+      column-name: GPSHPOSITIONINGERROR
+      type: Plain Text
+
+    heading: 
+      heading: Gpshpositioningerror
+      alignment: end
+
+    layout: 
+      sequence: 790
+      column-alignment: end
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: FOCALLENGTHIN35MMFORMAT =====================
+    id: 136453524911689816
+    identification: 
+      column-name: FOCALLENGTHIN35MMFORMAT
+      type: Plain Text
+
+    heading: 
+      heading: Focallengthin35mmformat
+      alignment: end
+
+    layout: 
+      sequence: 800
+      column-alignment: end
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+- # ====== Region: Map =========================================
+  id: 136453676190689817
+  identification: 
+    name: Map
+    type: Map
+
+  source: 
+    location: None
+
+  layout: 
+    sequence: 30
+    parent-region: Summary # 133865455986133731
+    slot: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 136453763167689818
+    map: 
+      background: Default
+      height: 640
+
+    controls: 
+      navigation-bar: Zoom and Compass
+      navigation-bar-position: End
+      options: 
+      - Scale Bar
+      - Infinite Map
+      - Rectangle Zoom
+
+    initial-position-and-zoom: 
+      type: Based on Spatial Results
+
+    legend: 
+      show: true
+      position: End
+
+    attributes: 
+      messages-position: Below
+      unit-system: Metric
+
+    performance: 
+      lazy-loading: true
+
+    layers: 
+    - # ====== Layer: Location =====================================
+      id: 136453837139689819
+      identification: 
+        name: Location
+        layer-type: Points
+
+      layout: 
+        sequence: 10
+
+      source: 
+        location: Local Database
+        type: Table / View
+        table-owner: Parsing Schema
+        table-name: SM_POSTS
+        include-rowid-column: false
+        where-clause: 'id = :P4_ID'
+        use-spatial-index: false
+
+      column-mapping: 
+        geometry-column-data-type: Longitude/Latitude
+        longitude-column: LON
+        latitude-column: LAT
+        primary-key-column: ID
+
+      point-objects: 
+        style: SVG
+        shape: Default
+
+      point-clustering: 
+        enable: false
+
+      tooltip: 
+        advanced-formatting: false
+
+      info-window: 
+        advanced-formatting: false
+
+      legend: 
+        show: true
+        enable-to-hide: true
+
+page-items: 
+- # ====== Page Item: P4_PHOTO =================================
+  id: 133865698195133733
+  identification: 
+    name: P4_PHOTO
+    type: Display Image
+
+  label: 
+    alignment: Left
+
+  settings: 
+    based-on: BLOB Column returned by SQL statement
+    sql-statement: |
+      select
+          file_blob
+      from
+          sm_posts
+      where
+          id = :P4_id
+
+  layout: 
+    sequence: 10
+    region: Photo # 133865603695133732
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P4_ID ====================================
+  id: 136453931681689820
+  identification: 
+    name: P4_ID
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 20
+    region: No Parent
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+

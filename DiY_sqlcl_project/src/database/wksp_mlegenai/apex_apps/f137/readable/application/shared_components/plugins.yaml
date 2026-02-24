@@ -1,0 +1,658 @@
+---
+- # ====== Plugin: Enhanced File Uploader ======================
+  id: 243250638673131291612
+  identification: 
+    name: Enhanced File Uploader
+    internal-name: COM.ORACLE.APEX.ENHANCED_FILE_UPLOADER
+    type: Dynamic Action
+
+  advanced: 
+    category: Execute
+    quick-pick: false
+
+  subscription: 
+    version-number: 11427442
+
+  source: 
+    pl/sql-code: |
+      function render(
+                   p_dynamic_action in apex_plugin.t_dynamic_action,
+                   p_plugin         in apex_plugin.t_plugin )
+          return apex_plugin.t_dynamic_action_render_result is
+      
+          l_result                    apex_plugin.t_dynamic_action_render_result;
+      
+          c_enable_image_resize       constant boolean          := case when p_dynamic_action.attribute_01 = 'Y' then true else false end;
+          c_max_image_size            constant number           := p_dynamic_action.attribute_02;
+          c_enable_image_preview      constant boolean          := case when p_dynamic_action.attribute_03 = 'Y' then true else false end;
+          c_preview_container         constant varchar2( 255 )  := p_dynamic_action.attribute_04;
+          c_items_to_submit           constant varchar2( 4000 ) := p_dynamic_action.attribute_08;
+          c_show_processing           constant boolean          := case when p_dynamic_action.attribute_09 = 'Y' then true else false end;
+          c_cancel_uploads_esc        constant boolean          := case when p_dynamic_action.attribute_10 = 'Y' then true else false end;
+          c_file_processing_function  constant varchar2( 4000 ) := coalesce( p_dynamic_action.attribute_11, 'null' );
+      
+          l_component_config_json     clob := empty_clob();
+      
+          function get_da_item_element( p_action_id in number ) return varchar2 is
+            l_da_element  apex_application_page_da.when_element%type;
+            c_app_id      constant number := nv( 'APP_ID' );
+      
+            cursor l_cur_da_element is
+              select aapda.affected_elements
+                from apex_application_page_da_acts aapda
+               where aapda.application_id = c_app_id
+                 and aapda.action_id = p_action_id
+                 and aapda.affected_elements_type_code = 'ITEM';
+          begin
+            open l_cur_da_element;
+            fetch l_cur_da_element
+              into l_da_element;
+            close l_cur_da_element;
+      
+            return l_da_element;
+      
+          end get_da_item_element;
+      
+        begin
+          -- build component config json
+          apex_json.initialize_clob_output;
+          apex_json.open_object();
+          
+          apex_json.write( 'affectedElement',
+                           get_da_item_element( p_action_id => p_dynamic_action.id ) );
+          apex_json.write( 'enableImageResize',
+                           c_enable_image_resize );
+          apex_json.write( 'maxImageSize',
+                           c_max_image_size );
+          apex_json.write( 'enableImagePreview',
+                           c_enable_image_preview );
+          apex_json.write( 'previewContainer',
+                           c_preview_container );
+          apex_json.write( 'itemsToSubmit',
+                           c_items_to_submit );
+          apex_json.write( 'showProcessing',
+                           c_show_processing );
+          apex_json.write( 'cancelWithEscape',
+                           c_cancel_uploads_esc );
+          apex_json.write( 'ajaxIdentifier',
+                           apex_plugin.get_ajax_identifier );
+          apex_json.close_object();
+          --
+          l_component_config_json := apex_json.get_clob_output;
+          apex_json.free_output;
+          -- da javascript function
+          l_result.javascript_function := 'function(){apex.da.enhancedFileUpload(this,' || l_component_config_json ||
+                                          ',' || c_file_processing_function || ');}';
+          --
+          return l_result;
+          --
+        end render;
+      
+      function ajax(
+                   p_dynamic_action in apex_plugin.t_dynamic_action,
+                   p_plugin         in apex_plugin.t_plugin )
+        return apex_plugin.t_dynamic_action_ajax_result is
+      
+        l_result               apex_plugin.t_dynamic_action_ajax_result;
+      
+        c_storage_collection   constant varchar2( 50 ) := 'COLLECTION';
+        c_storage_plsql        constant varchar2( 50 ) := 'PLSQL';
+      
+        c_save_in              constant varchar2( 50 )   := coalesce( p_dynamic_action.attribute_05, c_storage_collection );
+        c_collection_name      constant varchar2( 255 )  := p_dynamic_action.attribute_06;
+        c_plsql_code           constant varchar2( 4000 ) := p_dynamic_action.attribute_07;
+        c_items_to_submit      constant varchar2( 4000 ) := p_dynamic_action.attribute_08;
+        c_apex_storage_name    constant varchar2( 255 )  := apex_application.g_f01(1);
+        c_file_metadata        constant varchar2( 4000 ) := apex_application.g_x03;
+        c_plsql_code_upper     constant varchar2( 4000 ) := upper( c_plsql_code );
+        
+        l_parameters           apex_exec.t_parameters;
+        l_items_to_submit_arr  apex_t_varchar2;
+      
+      begin
+        -- save in APEX collection
+        if c_save_in = c_storage_collection then
+            if not apex_collection.collection_exists( p_collection_name => c_collection_name ) then
+                apex_collection.create_collection( p_collection_name => c_collection_name );
+            end if;
+      
+            for l_rec_file in ( select aaf.filename,
+                                       aaf.mime_type,
+                                       aaf.doc_size,
+                                       aaf.blob_content
+                                  from apex_application_files aaf
+                                 where aaf.name = c_apex_storage_name ) loop
+      
+                apex_collection.add_member(
+                    p_collection_name => c_collection_name,
+                    p_c001            => l_rec_file.filename,
+                    p_c002            => l_rec_file.mime_type,
+                    p_c003            => c_file_metadata,
+                    p_d001            => sysdate,
+                    p_n001            => l_rec_file.doc_size,
+                    p_blob001         => l_rec_file.blob_content
+                );
+      
+          end loop;
+      
+        end if;
+      
+        -- save using custom PL/SQL
+        if c_save_in = c_storage_plsql then
+            -- add parameters / bind variables
+            l_items_to_submit_arr := apex_string.split( p_str => c_items_to_submit, p_sep => ',' );
+            for i in 1..l_items_to_submit_arr.count
+            loop
+                if instr( c_plsql_code_upper, l_items_to_submit_arr(i) ) > 0 then
+                    apex_exec.add_parameter(
+                        p_parameters => l_parameters,
+                        p_name       => l_items_to_submit_arr(i),
+                        p_value      => v( l_items_to_submit_arr(i) ) );
+                end if;
+            end loop;
+            
+            if instr( c_plsql_code_upper, 'APEX$STORAGENAME' ) > 0 then
+                apex_exec.add_parameter(
+                    p_parameters => l_parameters,
+                    p_name       => 'APEX$STORAGENAME',
+                    p_value      => c_apex_storage_name );
+            end if;
+            if instr( c_plsql_code_upper, 'APEX$FILENAME' ) > 0 then
+                apex_exec.add_parameter(
+                    p_parameters => l_parameters,
+                    p_name       => 'APEX$FILENAME',
+                    p_value      => apex_application.g_x01 );
+            end if;
+            if instr( c_plsql_code_upper, 'APEX$MIMETYPE' ) > 0 then
+                apex_exec.add_parameter(
+                    p_parameters => l_parameters,
+                    p_name       => 'APEX$MIMETYPE',
+                    p_value      => apex_application.g_x02 );
+            end if;
+            if instr( c_plsql_code_upper, 'APEX$METADATA' ) > 0 then
+                apex_exec.add_parameter(
+                    p_parameters => l_parameters,
+                    p_name       => 'APEX$METADATA',
+                    p_value      => c_file_metadata );
+            end if;
+          
+            -- execute pl/sql
+            apex_exec.execute_plsql(
+                p_plsql_code      => c_plsql_code,
+                p_auto_bind_items => false,
+                p_sql_parameters  => l_parameters );
+        end if;
+      
+        -- delete original file
+        delete from apex_application_files aaf
+           where aaf.name = c_apex_storage_name;
+        
+        sys.htp.init;
+        sys.htp.p( '{"success":true}' );
+      
+        return l_result;
+      exception when others then
+          sys.htp.init;
+          sys.htp.p( '{"success":false}' );
+      end ajax;
+
+  callbacks: 
+    api-interface: Procedure with Legacy Attributes [deprecated]
+    render-procedure/function-name: render
+    ajax-procedure/function-name: ajax
+
+  standard-attributes: 
+    attributes: 
+    - For Item(s)
+    - Affected Element Required
+    - Has "Stop Execution on Error" Attribute
+    - Has "Wait For Result" Attribute
+
+  custom-attributes: 
+    substitute-attribute-values: true
+
+  javascript: 
+    file-urls: 
+    - '#PLUGIN_FILES#enhancedFileUpload#MIN#.js'
+
+  information: 
+    version: 1.0.0
+    about-url: 'https://oracle.github.io/apex/'
+    help-text: Dynamic Action plugin which enhances the functionality of the built-in File Browse item and uploads files using AJAX.
+
+  custom-attributes: 
+  - # ====== Custom Attribute: File Processing JavaScript Function
+    id: 234328656878900972748
+    identification: 
+      attribute: 11
+      name: File Processing JavaScript Function
+      scope: Component
+
+    layout: 
+      sequence: 110
+
+    settings: 
+      type: JavaScript Code
+      common: true
+      show-in-wizard: true
+      required: false
+      translatable: false
+
+    help: 
+      help-text: 'Provide an optional async JavaScript function to do file manipulations before the file gets uploaded to the server. To add metadata to a file use <i>file._metadata = {}</i>, this can then be used with the bind variable <i>:APEX$METADATA</i> on the server. To cancel the upload of a given file, just add <i>file._cancel = true</i> flag.'
+
+    examples: 
+      examples: |
+        <pre>
+        async function( file ) {
+            file._metadata = { "field1": "value1", "field2": "value2" };
+            return file;
+        }
+        </pre>
+        
+        <pre>
+        async function( file ) {
+        
+            if ( file.type.startsWith( "image/" ) ) {
+                file._metadata = await getEXIFMetadata( file );
+            }
+        
+            if ( file.type.startsWith( "audio/" ) ) {
+                const tags = await getAudioMetadata( file );
+                file._metadata = {
+                    artist: tags.artist,
+                    title: tags.title,
+                    album: tags.album,
+                    year: tags.year
+                }
+            }
+        
+            if ( file.name.toLowerCase().endsWith( ".txt" ) ) {
+                file._cancel = true;
+            }
+        
+            return file;
+        }
+        </pre>
+
+  - # ====== Custom Attribute: Cancel Uploads using ESC Key ======
+    id: 234328685197457136773
+    identification: 
+      attribute: 10
+      name: Cancel Uploads using ESC Key
+      scope: Component
+
+    layout: 
+      sequence: 100
+
+    settings: 
+      type: Yes/No
+      common: true
+      show-in-wizard: true
+      required: false
+      translatable: false
+
+    default: 
+      value: N
+
+    help: 
+      help-text: Should it be possible to cancel file uploads pressing the ESC key? This will only cancel the particular file which is uploaded, if multiple file uploads are configured, the next file will be processed.
+
+  - # ====== Custom Attribute: Save Files In =====================
+    id: 234328696965019379941
+    identification: 
+      attribute: 5
+      name: Save Files In
+      scope: Component
+
+    layout: 
+      sequence: 50
+
+    settings: 
+      type: Select List
+      lov-type: Static
+      common: true
+      show-in-wizard: true
+      required: true
+      translatable: false
+
+    default: 
+      value: COLLECTION
+
+    help: 
+      help-text: Either store the uploaded files in an APEX Collection by just providing the collection name or by providing custom PL/SQL code. The latter gives you full control over the saving logic.
+
+    entries: 
+    - # ====== Entry: APEX Collection ==============================
+      id: 234328697263706381861
+      entry: 
+        sequence: 10
+        display: APEX Collection
+        return: COLLECTION
+
+      advanced: 
+        quick-pick: false
+
+    - # ====== Entry: PL/SQL =======================================
+      id: 234328697738739382965
+      entry: 
+        sequence: 20
+        display: PL/SQL
+        return: PLSQL
+
+      advanced: 
+        quick-pick: false
+
+  - # ====== Custom Attribute: Collection Name ===================
+    id: 234328698141827387344
+    identification: 
+      attribute: 6
+      name: Collection Name
+      scope: Component
+
+    layout: 
+      sequence: 60
+
+    settings: 
+      type: Text
+      common: true
+      show-in-wizard: true
+      required: true
+      translatable: false
+
+    condition: 
+      depending-on-custom-attribute: Save Files In # 234328696965019379941
+      depending-on-condition-type: equal to
+      expression: COLLECTION
+      always-evaluate: true
+
+    help: 
+      help-text: Enter the name of the APEX Collection storing the uploaded files.
+
+    examples: 
+      examples: |
+        <pre>
+        select seq_id,
+               c001    as file_name,
+               c002    as mime_type,
+               c003    as file_metadata,
+               d001    as upload_date,
+               n001    as file_size,
+               blob001 as file_content
+          from apex_collections
+         where collection_name = '<YOUR_COLLECTION_NAME>'
+        </pre>
+
+  - # ====== Custom Attribute: Preview Container Selector ========
+    id: 243250522504381618290
+    identification: 
+      attribute: 4
+      name: Preview Container Selector
+      scope: Component
+
+    layout: 
+      sequence: 40
+
+    settings: 
+      type: Text
+      common: true
+      show-in-wizard: true
+      required: true
+      translatable: false
+
+    condition: 
+      depending-on-custom-attribute: Enable Image Preview # 243250793170606324156
+      depending-on-condition-type: equal to
+      expression: Y
+      always-evaluate: true
+
+    help: 
+      help-text: This option defines the HTML container element which is used to render the image preview. Use an valid jQuery selector
+
+    examples: 
+      examples: '.my_element, #MY_ELEMENT'
+
+  - # ====== Custom Attribute: Enable Image Resize ===============
+    id: 243250730595820311394
+    identification: 
+      attribute: 1
+      name: Enable Image Resize
+      scope: Component
+
+    layout: 
+      sequence: 10
+
+    settings: 
+      type: Yes/No
+      common: true
+      show-in-wizard: true
+      required: false
+      translatable: false
+
+    default: 
+      value: N
+
+    help: 
+      help-text: This option enables image resizing before the file is uploaded to the server.
+
+  - # ====== Custom Attribute: Max. Image Size ===================
+    id: 243250782571668321746
+    identification: 
+      attribute: 2
+      name: Max. Image Size
+      scope: Component
+
+    layout: 
+      sequence: 20
+
+    settings: 
+      type: Integer
+      common: true
+      show-in-wizard: true
+      required: true
+      translatable: false
+
+    default: 
+      value: 1024
+
+    condition: 
+      depending-on-custom-attribute: Enable Image Resize # 243250730595820311394
+      depending-on-condition-type: equal to
+      expression: Y
+      always-evaluate: true
+
+    help: 
+      help-text: This option downscales the image to fit into max * max size.
+
+  - # ====== Custom Attribute: Enable Image Preview ==============
+    id: 243250793170606324156
+    identification: 
+      attribute: 3
+      name: Enable Image Preview
+      scope: Component
+
+    layout: 
+      sequence: 30
+
+    settings: 
+      type: Yes/No
+      common: true
+      show-in-wizard: true
+      required: false
+      translatable: false
+
+    default: 
+      value: N
+
+    condition: 
+      depending-on-custom-attribute: Enable Image Resize # 243250730595820311394
+      depending-on-condition-type: equal to
+      expression: Y
+      always-evaluate: true
+
+    help: 
+      help-text: This option enables previewing the downscaled image within a given HTML container element.
+
+  - # ====== Custom Attribute: PL/SQL Code =======================
+    id: 243250880400093343841
+    identification: 
+      attribute: 7
+      name: PL/SQL Code
+      scope: Component
+
+    layout: 
+      sequence: 70
+
+    settings: 
+      type: PL/SQL Code
+      common: true
+      show-in-wizard: true
+      required: true
+      translatable: false
+
+    condition: 
+      depending-on-custom-attribute: Save Files In # 234328696965019379941
+      depending-on-condition-type: equal to
+      expression: PLSQL
+      always-evaluate: true
+
+    help: 
+      help-text: This option defines the PL/SQL Code which is used to process the uploaded files. This can be used to store the files to a given table or collection.
+
+    examples: 
+      examples: |
+        <pre>
+        declare
+            l_collection  varchar2( 255 )  := 'FILE_UPLOAD_COLLECTION';
+        begin
+            if not apex_collection.collection_exists( p_collection_name => l_collection ) then
+                apex_collection.create_collection( p_collection_name => l_collection );
+            end if;
+        
+            for l_rec_file in ( select aaf.filename,    -- file name
+                                       aaf.mime_type,   -- mime type
+                                       aaf.doc_size,    -- file size in byte
+                                       aaf.blob_content -- file content as blob
+                                  from apex_application_files aaf
+                                 where aaf.name = :APEX$STORAGENAME ) loop
+              
+                apex_collection.add_member(
+                    p_collection_name => l_collection,
+                    p_c001            => l_rec_file.filename,
+                    p_c002            => l_rec_file.mime_type,
+                    p_c003            => :APEX$METADATA,
+                    p_c004            => :P99_ITEM1 || ', ' || :P99_ITEM2,
+                    p_n001            => l_rec_file.doc_size,
+                    p_blob001         => l_rec_file.blob_content
+                );
+        
+            end loop;
+        
+        end;
+        </pre>
+
+  - # ====== Custom Attribute: Page Items to Submit ==============
+    id: 243251146955058369648
+    identification: 
+      attribute: 8
+      name: Page Items to Submit
+      scope: Component
+
+    layout: 
+      sequence: 80
+
+    settings: 
+      type: Page Items
+      common: true
+      show-in-wizard: true
+      required: false
+      translatable: false
+
+    condition: 
+      depending-on-custom-attribute: Save Files In # 234328696965019379941
+      depending-on-condition-type: equal to
+      expression: PLSQL
+      always-evaluate: true
+
+    help: 
+      help-text: This options defines the page items which will get submitted to the server during file upload. The session state of these items is then available on the server.
+
+  - # ====== Custom Attribute: Show Processing ===================
+    id: 243269986528900080168
+    identification: 
+      attribute: 9
+      name: Show Processing
+      scope: Component
+
+    layout: 
+      sequence: 90
+
+    settings: 
+      type: Yes/No
+      common: true
+      show-in-wizard: true
+      required: false
+      translatable: false
+
+    default: 
+      value: Y
+
+    help: 
+      help-text: This option enables a waiting indicator during file upload to show a user that something is processing in the background.
+
+  events: 
+  - # ====== Event: enhancedfileuploaderfileprogress =============
+    id: 234328543483593115157
+    identification: 
+      name: File Upload Progress
+      internal-name: enhancedfileuploaderfileprogress
+
+  - # ====== Event: enhancedfileuploadertotalprogress ============
+    id: 234328543859334115158
+    identification: 
+      name: Total Upload Progress
+      internal-name: enhancedfileuploadertotalprogress
+
+  - # ====== Event: enhancedfileuploaderfilecancel ===============
+    id: 234328682549255864963
+    identification: 
+      name: FIle Upload Canceled
+      internal-name: enhancedfileuploaderfilecancel
+
+  - # ====== Event: enhancedfileuploadersuccess ==================
+    id: 243269048257307675915
+    identification: 
+      name: File Upload Success
+      internal-name: enhancedfileuploadersuccess
+
+  - # ====== Event: enhancedfileuploadererror ====================
+    id: 243269048622298675919
+    identification: 
+      name: File Upload Error
+      internal-name: enhancedfileuploadererror
+
+  - # ====== Event: enhancedfileuploadercomplete =================
+    id: 243269048973871675920
+    identification: 
+      name: File Upload Complete
+      internal-name: enhancedfileuploadercomplete
+
+  files: 
+  - # ====== File: enhancedFileUpload.js =========================
+    id: 234328709106972233063
+    identification: 
+      file-name: enhancedFileUpload.js
+
+    attributes: 
+      mime-type: application/javascript
+      file-character-set: Unicode UTF-8
+
+  - # ====== File: enhancedFileUpload.min.js =====================
+    id: 234328709379592233065
+    identification: 
+      file-name: enhancedFileUpload.min.js
+
+    attributes: 
+      mime-type: application/javascript
+      file-character-set: Unicode UTF-8
+

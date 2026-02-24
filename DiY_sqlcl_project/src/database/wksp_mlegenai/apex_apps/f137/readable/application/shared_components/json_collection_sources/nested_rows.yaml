@@ -1,0 +1,33 @@
+---
+- # ====== Nested Rows: 1. LENSINFO ============================
+  id: 136377524240605811
+  identification: 
+    name: LENSINFO
+
+  label: 
+    label: 1. LENSINFO
+
+- # ====== Nested Rows: 2. GPSLATITUDE =========================
+  id: 136383273709605835
+  identification: 
+    name: GPSLATITUDE
+
+  label: 
+    label: 2. GPSLATITUDE
+
+- # ====== Nested Rows: 3. SUBJECTAREA =========================
+  id: 136384721954605841
+  identification: 
+    name: SUBJECTAREA
+
+  label: 
+    label: 3. SUBJECTAREA
+
+- # ====== Nested Rows: 4. GPSLONGITUDE ========================
+  id: 136386541714605848
+  identification: 
+    name: GPSLONGITUDE
+
+  label: 
+    label: 4. GPSLONGITUDE
+

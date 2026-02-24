@@ -1,0 +1,13 @@
+---
+- # ====== REST Data Source Server: vision-aiservice-eu-frankfur
+  id: 135372073078444326
+  identification: 
+    name: vision-aiservice-eu-frankfurt-1-oci-oraclecloud-com-20220125-actions
+
+  endpoint-url: 
+    url: 'https://vision.aiservice.eu-frankfurt-1.oci.oraclecloud.com/20220125/actions/'
+
+  advanced: 
+    static-id: vision_aiservice_eu_frankfurt_1_oci_oraclecloud_com_20220125_actions
+    prompt-on-install: false
+

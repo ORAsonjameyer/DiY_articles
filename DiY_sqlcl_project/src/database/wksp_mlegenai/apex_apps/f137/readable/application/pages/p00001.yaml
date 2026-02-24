@@ -1,0 +1,1589 @@
+---
+# ====== Page: Timeline ======================================
+id: 1
+identification: 
+  name: Timeline
+  alias: TIMELINE
+  title: Timeline
+
+appearance: 
+  page-mode: Normal
+  page-template: Theme Default
+  template-options: 
+  - '#DEFAULT#'
+
+navigation-menu: 
+  override-user-interface-level: true
+  list: Do not show Navigation Menu List
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: true
+
+javascript: 
+  execute-when-page-loads: |
+    apex.actions.add([{
+        name: "like",
+        action: (event, element, args) => {
+            apex.items.P1_ACTION_ID.value = args.id;
+            apex.event.trigger(document, 'action-like');
+        }
+    }, {
+        name: "delete",
+        action: (event, element, args) => {
+            apex.items.P1_ACTION_ID.value = args.id;
+            apex.event.trigger(document, 'action-delete');
+        }
+    }, {
+        name: "open-map",
+        action: () => {
+            apex.event.trigger(document, 'action-open-map');
+        }
+    }, {
+        name: "open-about",
+        action: () => {
+            apex.event.trigger(document, 'action-open-about');
+        }
+    }]);
+
+css: 
+  inline: |
+    .user-has-liked {
+        color: red;
+    }
+    
+    @media (max-width: 640px) {
+        .new-post-button {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 1000;
+        }
+    }
+
+security: 
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: No - Prevent page from being re-posted
+  reload-on-submit: Always
+
+server-cache: 
+  caching: Disabled
+
+regions: 
+- # ====== Region: Post ========================================
+  id: 233237352519351686644
+  identification: 
+    name: Post
+    type: Form
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: SM_POSTS
+    include-rowid-column: false
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    slot: REGION_POSITION_04
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Inline Dialog
+    template-options: 
+    - '#DEFAULT#'
+    - js-dialog-autoheight
+    - js-dialog-nosize
+    - js-headingLevel-1
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    edit: 
+      enabled: true
+      allowed-operations: 
+      - Add Row
+      lost-update-type: Row Values
+
+- # ====== Region: Timeline ====================================
+  id: 233238220991885180919
+  identification: 
+    name: Timeline
+    type: Cards
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select
+      p.id,
+      p.created_by AS user_name,
+      p.post_comment AS comment_text,
+      p.file_blob,
+      p.file_mime,
+      apex_util.get_since(p.created) post_date,
+      (
+      select count(*) from SM_REACTIONS smr
+      where smr.post_id=p.id
+      ) as REACTIONS,
+      (
+      select 'user-has-liked' from SM_REACTIONS smr
+      where smr.post_id=p.id and created_by=UPPER(:APP_USER)
+      ) USER_REACTION_CSS
+      from SM_POSTS p
+      where (:P1_AI_SEARCH IS NOT NULL AND
+      (upper(ai_output) like upper('%'||:P1_AI_SEARCH||'%') OR upper(ai_output_td) like upper('%'||:P1_AI_SEARCH||'%')
+      )
+      )OR :P1_AI_SEARCH IS NULL
+      order by p.created desc;
+      
+    page-items-to-submit: 
+    - P1_AI_SEARCH
+
+  order-by: 
+    type: None
+
+  layout: 
+    sequence: 40
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: false
+    column-span: Automatic
+
+  appearance: 
+    template: Cards Container
+    template-options: 
+    - '#DEFAULT#'
+    css-classes: 
+    - t-Chat
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    static-id: timeline
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 233267857508833840557
+    appearance: 
+      layout: Grid
+      grid-columns: Auto
+
+    card: 
+      primary-key-column-1: ID
+
+    title: 
+      advanced-formatting: false
+      column: USER_NAME
+
+    subtitle: 
+      advanced-formatting: false
+      column: POST_DATE
+
+    body: 
+      advanced-formatting: false
+      column: COMMENT_TEXT
+
+    secondary-body: 
+      advanced-formatting: false
+
+    icon-and-badge: 
+      icon-source: Initials
+      icon-column: USER_NAME
+      icon-position: Start
+
+    media: 
+      advanced-formatting: false
+      source: BLOB Column
+      blob-column: FILE_BLOB
+      position: First
+      appearance: Widescreen
+      sizing: Cover
+      css-classes: 
+      - selectDisable
+      - null
+      image-description: '&COMMENT_TEXT.'
+
+    blob-attributes: 
+      mime-type-column: FILE_MIME
+
+    performance: 
+      lazy-loading: true
+
+    pagination: 
+      type: Scroll
+      show-total-count: false
+
+    actions: 
+    - # ====== Action: Full Card ===================================
+      id: 133865344730133730
+      identification: 
+        type: Full Card
+
+      layout: 
+        sequence: 30
+
+      link: 
+        type: Redirect to Page in this Application
+        target: 
+          url: 'f?p=&APP_ID.:4:&SESSION.::&DEBUG.::P4_ID:&ID.'
+          page: 4 # post details
+          values: 
+            p4_id: '&ID.'
+
+    - # ====== Action: &REACTIONS. =================================
+      id: 233267857685454840558
+      identification: 
+        type: Button
+        label: '&REACTIONS.'
+
+      layout: 
+        position: Primary
+        sequence: 10
+
+      link: 
+        type: Redirect to URL
+        target: '#action$like?id=&ID.'
+
+      appearance: 
+        display-type: Text with Icon
+        icon: fa-heart &USER_REACTION_CSS.
+        hot: false
+        css-classes: 
+        - js-heart-button
+
+    - # ====== Action: Delete ======================================
+      id: 233267857873593840560
+      identification: 
+        type: Button
+        label: Delete
+
+      layout: 
+        position: Secondary
+        sequence: 20
+
+      link: 
+        type: Redirect to URL
+        target: '#action$delete?id=&ID.'
+
+      appearance: 
+        display-type: Icon
+        icon: fa-trash-o
+        hot: false
+
+      server-side-condition: 
+        type: Expression
+        language: PL/SQL
+        pl/sql-expression: 'trim(:user_name)=trim(:APP_USER)'
+        execute-condition: For Each Row
+
+- # ====== Region: Post and Like Locations =====================
+  id: 233966353027730515855
+  identification: 
+    name: Post and Like Locations
+    type: Map
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select distinct lat, lon, created_by as who, apex_util.get_since(created) since from 
+      (
+          select lat, lon, created_by, created from SM_POSTS 
+      union 
+      select lat, lon, created_by, created from SM_REACTIONS
+      )
+
+  layout: 
+    sequence: 20
+    parent-region: No Parent
+    slot: REGION_POSITION_04
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Inline Dialog
+    template-options: 
+    - '#DEFAULT#'
+    - js-dialog-size600x400
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    static-id: map
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 233966353100544515856
+    map: 
+      background: Default
+      height: 300
+
+    controls: 
+      navigation-bar: Zoom and Compass
+      navigation-bar-position: End
+      options: 
+      - Mousewheel Zoom
+      - Rectangle Zoom
+      - Scale Bar
+      - Infinite Map
+      - Get Browser Location
+
+    initial-position-and-zoom: 
+      get-position-from-browser: true
+      type: Based on Spatial Results
+
+    legend: 
+      show: true
+      position: End
+
+    attributes: 
+      messages-position: Below
+      unit-system: Metric
+
+    performance: 
+      lazy-loading: true
+
+    layers: 
+    - # ====== Layer: Locations ====================================
+      id: 233966353212660515857
+      identification: 
+        name: Locations
+        layer-type: Points
+
+      layout: 
+        sequence: 10
+
+      source: 
+        location: Region Source
+        use-spatial-index: false
+
+      column-mapping: 
+        geometry-column-data-type: Longitude/Latitude
+        longitude-column: LON
+        latitude-column: LAT
+
+      point-objects: 
+        style: SVG
+        shape: Default
+
+      point-clustering: 
+        enable: false
+
+      tooltip: 
+        advanced-formatting: true
+        html-expression: '&WHO. @ &SINCE.'
+
+      info-window: 
+        advanced-formatting: false
+
+      legend: 
+        show: false
+
+- # ====== Region: About =======================================
+  id: 234242121212946517926
+  identification: 
+    name: About
+    type: Static Content
+
+  source: 
+    html-code: |
+      This application demonstrates many out-of-the-box features of APEX while also showing how an APEX developer can enhance and extend functionality with some custom HTML, mininmal CSS and some Javascript. Further, this application should behave beautifully on either Desktop or Mobile devices!
+      <h3>App Development concepts</h3>
+      <ul>
+      <li>Single Page Application</li>
+      <li>Progressive Web App</li>
+      <li>Mobile Friendly - can use device location and camera</li>
+      <li>File upload</li>
+      <li>Activity locations map</li>
+      </ul>
+      <h3>Database & APEX concepts</h3>
+      <ul>
+      <li>Page Designer</li>
+      <li>QuickSQL and relational datamodel</li>
+      <li>Form Region</li>
+      <li>Cards Region</li>
+      <li>Dialogs</li>
+      <li>Working with BLOBs</li>
+      <li>Javascript</li>
+      <li>Dynamic Actions</li>
+      <li>Custom Events</li>
+      <li>Custom HTML and CSS styling</li>
+      </ul>
+
+  layout: 
+    sequence: 40
+    parent-region: No Parent
+    slot: REGION_POSITION_04
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Inline Drawer
+    template-options: 
+    - '#DEFAULT#'
+    - js-dialog-class-t-Drawer--pullOutEnd
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    static-id: about
+    region-display-selector: true
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+page-items: 
+- # ====== Page Item: P1_RESPONSE ==============================
+  id: 133863641575133713
+  identification: 
+    name: P1_RESPONSE
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 20
+    region: Timeline # 233238220991885180919
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P1_AI_SEARCH =============================
+  id: 133865045785133727
+  identification: 
+    name: P1_AI_SEARCH
+    type: Text Field
+
+  label: 
+    label: Ai Search
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: true
+    disabled: false
+
+  layout: 
+    sequence: 20
+    region: No Parent
+    slot: AFTER_LOGO
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 100
+
+  validation: 
+    value-required: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P1_EXIF_DATA =============================
+  id: 133865285352133729
+  identification: 
+    name: P1_EXIF_DATA
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 30
+    region: Timeline # 233238220991885180919
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P1_POST_COMMENT ==========================
+  id: 59762469057694067567
+  identification: 
+    name: P1_POST_COMMENT
+    type: Text Field
+
+  label: 
+    label: Comment
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 80
+    region: Post # 233237352519351686644
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+    maximum-length: 4000
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Post # 233237352519351686644
+    column: POST_COMMENT
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P1_FILE_BLOB =============================
+  id: 59762469139378067568
+  identification: 
+    name: P1_FILE_BLOB
+    type: File Upload
+
+  label: 
+    label: Photo
+    alignment: Left
+
+  display: 
+    display-as: Block Dropzone
+    dropzone-title: Share a photo...
+    display-download-link: false
+    capture-using: NONE
+
+  storage:: 
+    type: BLOB column specified in Item Source attribute
+    mime-type-column: FILE_MIME
+    filename-column: FILE_NAME
+    file-types: image/*
+    maximum-file-size: 10000
+
+  layout: 
+    sequence: 70
+    region: Post # 233237352519351686644
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: 0
+
+  appearance: 
+    template: Hidden
+    template-options: 
+    - '#DEFAULT#'
+    - t-Form-fieldContainer--stretchInputs
+    css-classes: 
+    - file-upload
+    icon: fa-camera-retro
+    width: 30
+
+  validation: 
+    value-required: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Post # 233237352519351686644
+    column: FILE_BLOB
+    data-type: BLOB
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P1_ID ====================================
+  id: 233237352843782686645
+  identification: 
+    name: P1_ID
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 40
+    region: Post # 233237352519351686644
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Post # 233237352519351686644
+    column: ID
+    data-type: NUMBER
+    query-only: true
+    primary-key: true
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P1_ACTION_ID =============================
+  id: 233267858024638840562
+  identification: 
+    name: P1_ACTION_ID
+    type: Hidden
+
+  settings: 
+    value-protected: false
+
+  layout: 
+    sequence: 10
+    region: Timeline # 233238220991885180919
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  comments: 
+    comments: This ITEM has a DA on it that is set by the url's calling JS code for the purpose, which initiates the server side code aspect easily
+
+- # ====== Page Item: P1_LAT ===================================
+  id: 233941844686892975347
+  identification: 
+    name: P1_LAT
+    type: Hidden
+
+  settings: 
+    value-protected: false
+
+  layout: 
+    sequence: 50
+    region: Post # 233237352519351686644
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Post # 233237352519351686644
+    column: LAT
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P1_LON ===================================
+  id: 233941844737194975348
+  identification: 
+    name: P1_LON
+    type: Hidden
+
+  settings: 
+    value-protected: false
+
+  layout: 
+    sequence: 60
+    region: Post # 233237352519351686644
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Post # 233237352519351686644
+    column: LON
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+buttons: 
+- # ====== Button: ADD_POST ====================================
+  id: 85517046420682451538
+  identification: 
+    button-name: ADD_POST
+    label: Add Post
+
+  layout: 
+    sequence: 10
+    region: No Parent
+    slot: AFTER_LOGO
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--iconLeft
+    css-classes: 
+    - new-post-button
+    icon: fa-plus
+
+  behavior: 
+    action: Defined by Dynamic Action
+    execute-validations: true
+
+- # ====== Button: SAVE ========================================
+  id: 233237357734187686649
+  identification: 
+    button-name: SAVE
+    label: Post
+
+  layout: 
+    sequence: 10
+    region: Post # 233237352519351686644
+    slot: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--large
+    - t-Button--stretch
+    css-classes: 
+    - post-button
+
+  behavior: 
+    action: Defined by Dynamic Action
+    execute-validations: false
+    database-action: SQL INSERT action
+
+dynamic-actions: 
+- # ====== Dynamic Action: action-open-map =====================
+  id: 63084785594318739529
+  identification: 
+    name: action-open-map
+
+  execution: 
+    sequence: 110
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Custom
+    custom-event: action-open-map
+    selection-type: JavaScript Expression
+    javascript-expression: document
+
+  actions: 
+  - # ====== Action: Open Region =================================
+    id: 63084786183121739535
+    identification: 
+      action: Open Region
+
+    affected-elements: 
+      selection-type: Region
+      region: Post and Like Locations # 233966353027730515855
+
+    execution: 
+      sequence: 10
+      event: action-open-map # 63084785594318739529
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: action-open-about ===================
+  id: 63084785908609739532
+  identification: 
+    name: action-open-about
+
+  execution: 
+    sequence: 120
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Custom
+    custom-event: action-open-about
+    selection-type: JavaScript Expression
+    javascript-expression: document
+
+  actions: 
+  - # ====== Action: Open Region =================================
+    id: 63084786233478739536
+    identification: 
+      action: Open Region
+
+    affected-elements: 
+      selection-type: Region
+      region: About # 234242121212946517926
+
+    execution: 
+      sequence: 10
+      event: action-open-about # 63084785908609739532
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: action-like =========================
+  id: 69226743739782314532
+  identification: 
+    name: action-like
+
+  execution: 
+    sequence: 100
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Custom
+    custom-event: action-like
+    selection-type: JavaScript Expression
+    javascript-expression: document
+
+  actions: 
+  - # ====== Action: LIKE - update UI (adjust count + heart color)
+    id: 69226744169163314536
+    identification: 
+      name: LIKE - update UI (adjust count + heart color)
+      action: Execute JavaScript Code
+
+    settings: 
+      code: |
+        const button = $('[data-id="'+ apex.items.P1_ACTION_ID.value +'"] .js-heart-button'); // get the card
+        
+        const label = button.find('.a-CardView-buttonLabel'); // get the likes count section
+        
+        const icon = button.find('.a-CardView-buttonIcon'); // gets the element if its liked already
+        
+        let likeCount = label.text(); // get the like count
+        
+        if (icon.hasClass('user-has-liked')) { 
+            // user has liked this already, and they are unliking it now, decrement
+            label.text(--likeCount); 
+        
+        } else { 
+            // user is just now liking this, increment
+            label.text(++likeCount);
+        }
+        
+        icon.toggleClass('user-has-liked'); // either add this class or remove it
+
+    execution: 
+      sequence: 40
+      event: action-like # 69226743739782314532
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: LIKE - do database work =====================
+    id: 69226744294761314537
+    identification: 
+      name: LIKE - do database work
+      action: Execute Server-side Code
+
+    settings: 
+      language: PE.PROPERTY.SOURCE_SNIPPET_LANG.LOV.PLSQL.D
+      pl/sql-code: |
+        begin
+            -- try to store this posts' reaction from this user
+            insert into SM_REACTIONS (post_id, reaction, lat, lon) values (:P1_ACTION_ID, 'LIKED', :P1_LAT, :P1_LON);
+            exception when dup_val_on_index then
+                -- remove it as it already existed
+                delete from SM_REACTIONS where post_id=:P1_ACTION_ID and created_by=:APP_USER;
+        end;
+      items-to-submit: 
+      - P1_ACTION_ID
+      - P1_LAT
+      - P1_LON
+
+    execution: 
+      sequence: 50
+      event: action-like # 69226743739782314532
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+      stop-execution-on-error: true
+      wait-for-result: true
+
+- # ====== Dynamic Action: Submit post =========================
+  id: 69226744503973314539
+  identification: 
+    name: Submit post
+
+  execution: 
+    sequence: 140
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Click
+    selection-type: Button
+    button: SAVE # 233237357734187686649
+
+  actions: 
+  - # ====== Action: Submit Page =================================
+    id: 69226744541119314540
+    identification: 
+      action: Submit Page
+
+    settings: 
+      request-/-button-name: SAVE
+      show-processing: true
+
+    execution: 
+      sequence: 10
+      event: Submit post # 69226744503973314539
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: get device location =================
+  id: 69226744619388314541
+  identification: 
+    name: get device location
+
+  execution: 
+    sequence: 150
+    event-scope: Static
+
+  when: 
+    event: Page Load
+
+  actions: 
+  - # ====== Action: Get Current Position ========================
+    id: 69226744785439314542
+    identification: 
+      action: Get Current Position
+
+    settings: 
+      return-type: Latitude and Longitude
+      latitude-item: P1_LAT
+      longitude-item: P1_LON
+      enable-high-accuracy: false
+
+    execution: 
+      sequence: 10
+      event: get device location # 69226744619388314541
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+      stop-execution-on-error: true
+      wait-for-result: true
+
+- # ====== Dynamic Action: Open Post Dialog ====================
+  id: 85517046485136451539
+  identification: 
+    name: Open Post Dialog
+
+  execution: 
+    sequence: 130
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Click
+    selection-type: Button
+    button: ADD_POST # 85517046420682451538
+
+  actions: 
+  - # ====== Action: Open Region =================================
+    id: 85517046639103451540
+    identification: 
+      action: Open Region
+
+    affected-elements: 
+      selection-type: Region
+      region: Post # 233237352519351686644
+
+    execution: 
+      sequence: 10
+      event: Open Post Dialog # 85517046485136451539
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: action-delete =======================
+  id: 233267858215960840564
+  identification: 
+    name: action-delete
+
+  execution: 
+    sequence: 90
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Custom
+    custom-event: action-delete
+    selection-type: JavaScript Expression
+    javascript-expression: document
+
+  actions: 
+  - # ====== Action: DELETE - do database work ===================
+    id: 233267858356208840565
+    identification: 
+      name: DELETE - do database work
+      action: Execute Server-side Code
+
+    settings: 
+      language: PE.PROPERTY.SOURCE_SNIPPET_LANG.LOV.PLSQL.D
+      pl/sql-code: 'delete from SM_POSTS where id=:P1_ACTION_ID and created_by=:APP_USER;'
+      items-to-submit: 
+      - P1_ACTION_ID
+
+    execution: 
+      sequence: 20
+      event: action-delete # 233267858215960840564
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+      stop-execution-on-error: true
+      wait-for-result: true
+
+  - # ====== Action: DELETE Confirm dialog =======================
+    id: 233267858552718840567
+    identification: 
+      name: DELETE Confirm dialog
+      action: Confirm
+
+    settings: 
+      title: Are you sure?
+      message: You are about to delete this post. Are you sure?
+      style: Default
+
+    execution: 
+      sequence: 10
+      event: action-delete # 233267858215960840564
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: DELETE - remove post in UI ==================
+    id: 233885739721982909521
+    identification: 
+      name: DELETE - remove post in UI
+      action: Execute JavaScript Code
+
+    settings: 
+      code: $('[data-id='+apex.items.P1_ACTION_ID.value+']').remove();
+
+    execution: 
+      sequence: 30
+      event: action-delete # 233267858215960840564
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+processes: 
+- # ====== Process: Analyze Image ==============================
+  id: 133863759509133714
+  identification: 
+    name: Analyze Image
+    type: Execution Chain
+    execution-chain: None
+
+  settings: 
+    run-in-background: true
+    temporary-file-handling: Ignore
+    submit-immediately: false
+
+  serialization: 
+    serialize: false
+
+  execution: 
+    sequence: 20
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+- # ====== Process: Image Classification =======================
+  id: 133863813691133715
+  identification: 
+    name: Image Classification
+    type: Invoke API
+    execution-chain: Analyze Image # 133863759509133714
+
+  settings: 
+    type: REST Source
+    rest-source: OCI VIsion # 135375696835473726
+    operation: POST # 135376255691473729
+
+  execution: 
+    sequence: 10
+
+  parameters: 
+  - # ====== Parameter: COMPARTMENT_ID ===========================
+    id: 133863996448133716
+    identification: 
+      name: COMPARTMENT_ID # 135377729396478998
+
+    parameter: 
+      direction: In
+      data-type: String
+
+    value: 
+      type: Static Value
+      static-value: ocid1.compartment.oc1..aaaaaaaacn2rb34ro2o7afdzwhwrklhfzmkg3w23lp7lroktyzjokngg2meq
+
+  - # ====== Parameter: FEATURE_TYPE =============================
+    id: 133864098849133717
+    identification: 
+      name: FEATURE_TYPE # 135378802222479002
+
+    parameter: 
+      direction: In
+      data-type: String
+
+    value: 
+      type: Static Value
+      static-value: IMAGE_CLASSIFICATION
+
+  - # ====== Parameter: FILE_DATA ================================
+    id: 133864200228133718
+    identification: 
+      name: FILE_DATA # 135378246448479001
+
+    parameter: 
+      direction: In
+      data-type: String
+
+    value: 
+      type: SQL Query (return single value)
+      sql-query: |
+        select replace(replace(apex_web_service.blob2clobbase64(file_blob), chr(10),''),chr(13),'')
+        from SM_posts
+        where ID = :P1_ID;
+
+  - # ====== Parameter: RESPONSE =================================
+    id: 133864247512133719
+    identification: 
+      name: RESPONSE # 135379305018482588
+
+    parameter: 
+      direction: Out
+      ignore-output: false
+
+    value: 
+      item: P1_RESPONSE
+
+- # ====== Process: Parse Image Classification Response ========
+  id: 133864353826133720
+  identification: 
+    name: Parse Image Classification Response
+    type: Execute Code
+    execution-chain: Analyze Image # 133863759509133714
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      UPDATE SM_POSTS
+      SET
+      AI_OUTPUT = (
+         SELECT
+             LISTAGG(obj_name, ',') WITHIN GROUP(
+             ORDER BY
+                 obj_name
+             )
+         FROM
+             JSON_TABLE ( :P1_RESPONSE, '$.labels[*]'
+                 COLUMNS
+                     obj_name VARCHAR2 ( 100 ) PATH '$.name[*]'
+             )
+      )
+      WHERE
+      ID = :P1_ID;
+
+  execution: 
+    sequence: 30
+
+- # ====== Process: Text Detection =============================
+  id: 133864434437133721
+  identification: 
+    name: Text Detection
+    type: Invoke API
+    execution-chain: Analyze Image # 133863759509133714
+
+  settings: 
+    type: REST Source
+    rest-source: OCI VIsion # 135375696835473726
+    operation: POST # 135376255691473729
+
+  execution: 
+    sequence: 50
+
+  parameters: 
+  - # ====== Parameter: COMPARTMENT_ID ===========================
+    id: 133864543291133722
+    identification: 
+      name: COMPARTMENT_ID # 135377729396478998
+
+    parameter: 
+      direction: In
+      data-type: String
+
+    value: 
+      type: Static Value
+      static-value: ocid1.compartment.oc1..aaaaaaaacn2rb34ro2o7afdzwhwrklhfzmkg3w23lp7lroktyzjokngg2meq
+
+  - # ====== Parameter: FEATURE_TYPE =============================
+    id: 133864699951133723
+    identification: 
+      name: FEATURE_TYPE # 135378802222479002
+
+    parameter: 
+      direction: In
+      data-type: String
+
+    value: 
+      type: Static Value
+      static-value: TEXT_DETECTION
+
+  - # ====== Parameter: FILE_DATA ================================
+    id: 133864755242133724
+    identification: 
+      name: FILE_DATA # 135378246448479001
+
+    parameter: 
+      direction: In
+      data-type: String
+
+    value: 
+      type: SQL Query (return single value)
+      sql-query: |
+        select replace(replace(apex_web_service.blob2clobbase64(file_blob), chr(10),''),chr(13),'')
+        from SM_posts
+        where ID = :P1_ID;
+
+  - # ====== Parameter: RESPONSE =================================
+    id: 133864808505133725
+    identification: 
+      name: RESPONSE # 135379305018482588
+
+    parameter: 
+      direction: Out
+      ignore-output: false
+
+    value: 
+      item: P1_RESPONSE
+
+- # ====== Process: Parse Text Detection Response ==============
+  id: 133864923739133726
+  identification: 
+    name: Parse Text Detection Response
+    type: Execute Code
+    execution-chain: Analyze Image # 133863759509133714
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      UPDATE SM_POSTS
+      SET
+      AI_OUTPUT_TD = (
+         SELECT
+             LISTAGG(obj_name, ',') WITHIN GROUP(
+             ORDER BY
+                 obj_name
+             )
+         FROM
+             JSON_TABLE ( :P1_RESPONSE, '$.imageText.words[*]'
+                 COLUMNS
+                     obj_name VARCHAR2 ( 100 ) PATH'$.text[*]'
+             )
+      )
+      WHERE
+      ID = :P1_ID;
+
+  execution: 
+    sequence: 60
+
+- # ====== Process: Extract EXIF Data ==========================
+  id: 136454019674689821
+  identification: 
+    name: Extract EXIF Data
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: JavaScript (MLE)
+    javascript-code: |
+      const { default: exifr } = await import ('exifr');
+      
+      const d = plsffi.resolvePackage('APEX_DEBUG');
+      
+      let result = apex.conn.execute(`
+              select
+                  file_blob
+              from
+                  sm_posts
+              where
+                  id = :id`,
+         {
+              id: {
+                  val: apex.env.P1_ID
+              }
+         },
+         {
+              fetchInfo: {
+                  FILE_BLOB: {
+                      type: oracledb.UINT8ARRAY
+                  }
+              }
+          });
+      
+      d.info(`fetched ${result.rows.length} row(s)`);
+      
+      if (result.rows.length === 1) {
+      
+        const exifData = await exifr.parse(result.rows[0].FILE_BLOB.buffer);
+      
+        d.info('no error during EXIF parse');
+      
+        if (!exifData || exifData === undefined) {
+          d.info(`no exif data found for image ${apex.env.P1_ID}`);
+          return;
+        }
+      
+        result = apex.conn.execute(
+          `update
+            sm_posts
+          set
+            exif_data = :data,
+            lon = :lon,
+            lat = :lat
+          where
+            id = :id`,
+          {
+            data: {
+              type: oracledb.DB_TYPE_JSON,
+              val: exifData
+            },
+            lon: {
+              type: oracledb.NUMBER,
+              val: exifData.longitude === undefined ? null : exifData.longitude
+            },
+            lat: {
+              type: oracledb.NUMBER,
+              val: exifData.latitude === undefined ? null : exifData.latitude
+            },
+            id: {
+              val: apex.env.P1_ID
+            }
+          }
+        );
+      
+        d.info(`${result.rowsAffected} rows have been updated with lon ${exifData.longitude} and lat ${exifData.latitude}`);
+        
+      }
+
+  execution: 
+    sequence: 30
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+- # ====== Process: init form ==================================
+  id: 233238223175596180941
+  identification: 
+    name: init form
+    type: Form - Initialization
+    execution-chain: None
+    form-region: Post # 233237352519351686644
+
+  execution: 
+    sequence: 20
+    point: Before Header
+    run-process: Once Per Page Visit (default)
+
+- # ====== Process: insert post ================================
+  id: 233238224989994180959
+  identification: 
+    name: insert post
+    type: Form - Automatic Row Processing (DML)
+    execution-chain: None
+    form-region: Post # 233237352519351686644
+
+  settings: 
+    target-type: Region Source
+    prevent-lost-updates: true
+    lock-row: Yes
+    return-primary-key(s)-after-insert: true
+
+  execution: 
+    sequence: 10
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  success-message: 
+    success-message: Posted!
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: SAVE # 233237357734187686649
+

@@ -1,0 +1,77 @@
+---
+- # ====== Breadcrumb: Breadcrumb ==============================
+  id: 122618667668529918
+  identification: 
+    name: Breadcrumb
+
+  entries: 
+  - # ====== Entry: Überblick ====================================
+    id: 122618875487529920
+    identification: 
+      name: Überblick
+      page-number: 1
+
+    execution: 
+      sequence: 10
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:1:&APP_SESSION.::&DEBUG.:::'
+        page: 1 # Überblick
+
+  - # ====== Entry: EU Gruppenliste ==============================
+    id: 122657688850530380
+    identification: 
+      name: EU Gruppenliste
+      page-number: 2
+
+    execution: 
+      sequence: 10
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:2:&APP_SESSION.::&DEBUG.:::'
+        page: 2 # EU Gruppenliste
+
+  - # ====== Entry: Event Finder 2026 ============================
+    id: 122667592348530429
+    identification: 
+      name: Event Finder 2026
+      page-number: 4
+
+    execution: 
+      sequence: 10
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:4:&APP_SESSION.::&DEBUG.:::'
+        page: 4 # Event Finder 2026
+
+  - # ====== Entry: Länderkennungen Pflege =======================
+    id: 122674528240530464
+    identification: 
+      name: Länderkennungen Pflege
+      page-number: 5
+
+    execution: 
+      sequence: 10
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:5:&APP_SESSION.::&DEBUG.:::'
+        page: 5 # Länderkennungen Pflege
+
+  - # ====== Entry: Administration ===============================
+    id: 122735795221530768
+    identification: 
+      name: Administration
+      page-number: 10000
+
+    execution: 
+      sequence: 10
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:10000:&APP_SESSION.::&DEBUG.:::'
+        page: 10000 # Administration
+

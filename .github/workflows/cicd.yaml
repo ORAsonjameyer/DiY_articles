@@ -56,7 +56,10 @@ jobs:
       - name: build the SQLcl artifact
         run: |
           TAG=${{ steps.vars.outputs.sha_short }}
-          echo "project gen-artifact -debug -version $TAG" | sql ${{ secrets.APP_USER_NAME }}/${{ secrets.APP_USER_PASSWORD }}@localhost/FREEPDB1
+          {
+            echo "cd DiY_setup_MCP"
+            echo "project gen-artifact -debug -version $TAG" | sql ${{ secrets.APP_USER_NAME }}/${{ secrets.APP_USER_PASSWORD }}@localhost/FREEPDB1
+          }
 
       - name: upload the SQLcl build artifact
         uses: actions/upload-artifact@v4

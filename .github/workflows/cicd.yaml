@@ -37,7 +37,7 @@ jobs:
         run: |
           {
             echo "whenever sqlerror exit"
-            cd DiY_setup_MCP 
+            echo "cd DiY_setup_MCP"
             echo "start dist/install.sql"
           } | sql ${{ secrets.APP_USER_NAME }}/${{ secrets.APP_USER_PASSWORD }}@localhost/FREEPDB1
 

@@ -1,0 +1,188 @@
+---
+# ====== Page: Überblick =====================================
+id: 1
+identification: 
+  name: Überblick
+  alias: HOME
+  title: OCG EU Gruppen & Events Hub
+
+appearance: 
+  page-mode: Normal
+  page-template: Theme Default
+  template-options: 
+  - '#DEFAULT#'
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: true
+
+security: 
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Only for Success
+
+server-cache: 
+  caching: Disabled
+
+regions: 
+- # ====== Region: Group =======================================
+  id: 122633476270530097
+  identification: 
+    name: Group
+    type: Chart
+
+  source: 
+    location: None
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  security: 
+    escape-special-characters: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 122633834747530098
+    chart: 
+      type: Pie
+
+    data-cursor: 
+      cursor: Automatic
+      behavior: Automatic
+      dim-on-hover: true
+
+    settings: 
+      pie-selection-effect: Highlight
+
+    value: 
+      pie-chart-other-threshold: 0
+      format: Decimal
+      decimal-places: 0
+      format-scaling: Automatic
+
+    animation: 
+      on-display: Automatic
+      on-data-change: Automatic
+
+    tooltip: 
+      show: true
+      show-series-name: true
+      show-value: true
+
+    legend: 
+      show: false
+
+    series: 
+    - # ====== Series: Series 1 ====================================
+      id: 122634376814530102
+      identification: 
+        name: Series 1
+
+      execution: 
+        sequence: 10
+
+      source: 
+        location: Local Database
+        type: SQL Query
+        sql-query: |
+          select ( select l."GROUP_NAME" from "OCG_GROUPS_EU" l where l."GROUP_ID" = c."GROUP_ID") "GROUP_ID", 
+                 count(*) value
+            from "OCG_GROUP_EVENTS_2026" c
+           group by c."GROUP_ID"
+           order by 2 desc
+
+      order-by: 
+        type: None
+
+      column-mapping: 
+        label: GROUP_ID
+        value: VALUE
+
+      label: 
+        show: true
+        position: Automatic
+        display-as: Label
+
+      performance: 
+        maximum-rows-to-process: 20
+
+- # ====== Region: OCG EU Gruppen & Events Hub =================
+  id: 122635150353530107
+  identification: 
+    name: OCG EU Gruppen & Events Hub
+    type: Static Content
+
+  source: 
+    html-code: Analyse und Pflege von EU-Gruppen, Events 2026 und Länderkennungen mit Dashboard und Such-/Listen-Seiten.
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    slot: REGION_POSITION_01
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Hero
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  image: 
+    file-url: '#APP_FILES#icons/app-icon-512.png'
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+

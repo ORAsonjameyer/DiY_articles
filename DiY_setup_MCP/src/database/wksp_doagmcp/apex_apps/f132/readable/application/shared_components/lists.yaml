@@ -1,0 +1,320 @@
+---
+- # ====== List: Navigation Menu ===============================
+  id: 122619180617529924
+  identification: 
+    name: Navigation Menu
+
+  subscription: 
+    version-number: 46332167335542
+
+  source: 
+    type: Static Values
+
+  entries: 
+  - # ====== Entry: Überblick ====================================
+    id: 122632743744530085
+    label: 
+      label: Überblick
+
+    icon: 
+      image/icon-css-classes: fa-home
+
+    layout: 
+      sequence: 10
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:1:&APP_SESSION.::&DEBUG.:::'
+        page: 1 # Überblick
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: EU Gruppenliste ==============================
+    id: 122635726767530110
+    label: 
+      label: EU Gruppenliste
+
+    icon: 
+      image/icon-css-classes: fa-table
+
+    layout: 
+      sequence: 20
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:2:&APP_SESSION.::&DEBUG.:::'
+        page: 2 # EU Gruppenliste
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Event Finder 2026 ============================
+    id: 122658848596530387
+    label: 
+      label: Event Finder 2026
+
+    icon: 
+      image/icon-css-classes: fa-table-search
+
+    layout: 
+      sequence: 30
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:4:&APP_SESSION.::&DEBUG.:::'
+        page: 4 # Event Finder 2026
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Länderkennungen Pflege =======================
+    id: 122667916918530430
+    label: 
+      label: Länderkennungen Pflege
+
+    icon: 
+      image/icon-css-classes: fa-table-pointer
+
+    layout: 
+      sequence: 40
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:5:&APP_SESSION.::&DEBUG.:::'
+        page: 5 # Länderkennungen Pflege
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Administration ===============================
+    id: 122734895991530764
+    label: 
+      label: Administration
+
+    icon: 
+      image/icon-css-classes: fa-user-wrench
+
+    layout: 
+      sequence: 10000
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:10000:&APP_SESSION.::&DEBUG.:::'
+        page: 10000 # Administration
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+    security: 
+      authorization-scheme: Administration Rights # 122624405091530009
+
+- # ====== List: Navigation Bar ================================
+  id: 122620215166529958
+  identification: 
+    name: Navigation Bar
+
+  subscription: 
+    version-number: 46332167335491
+
+  source: 
+    type: Static Values
+
+  entries: 
+  - # ====== Entry: Install App ==================================
+    id: 122733039536530756
+    label: 
+      label: Install App
+
+    icon: 
+      image/icon-css-classes: fa-cloud-download
+
+    layout: 
+      sequence: 10
+
+    is-current: 
+      type: Never
+
+    link: 
+      target: '#action$a-pwa-install'
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+      2.: a-pwaInstall
+
+  - # ====== Entry: &APP_USER. ===================================
+    id: 122733386723530757
+    label: 
+      label: '&APP_USER.'
+
+    icon: 
+      image/icon-css-classes: fa-user
+
+    layout: 
+      sequence: 20
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: '#'
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+      2.: has-username
+
+  - # ====== Entry: --- ==========================================
+    id: 122733804350530760
+    label: 
+      label: '---'
+
+    layout: 
+      sequence: 30
+      parent-entry: '&APP_USER.' # 122733386723530757
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: separator
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+    server-side-condition: 
+      type: User is Authenticated (not public)
+
+  - # ====== Entry: Sign Out =====================================
+    id: 122734283090530762
+    label: 
+      label: Sign Out
+
+    icon: 
+      image/icon-css-classes: fa-sign-out
+
+    layout: 
+      sequence: 40
+      parent-entry: '&APP_USER.' # 122733386723530757
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: '&LOGOUT_URL.'
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+    server-side-condition: 
+      type: User is Authenticated (not public)
+
+- # ====== List: Access Control ================================
+  id: 122735976796530769
+  identification: 
+    name: Access Control
+
+  subscription: 
+    version-number: 46332167335668
+
+  source: 
+    type: Static Values
+
+  configuration: 
+    build-option: 'Feature: Access Control' # 122622773575530001
+
+  entries: 
+  - # ====== Entry: Users ========================================
+    id: 122736387442530770
+    label: 
+      label: Users
+
+    icon: 
+      image/icon-css-classes: fa-users
+
+    layout: 
+      sequence: 10
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:10011:&APP_SESSION.::&DEBUG.:RP::'
+        page: 10011 # Manage User Access
+        clear-cache: RP
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+      1.: Set level of access for authenticated users of this application
+
+  - # ====== Entry: Access Control ===============================
+    id: 122736704224530771
+    label: 
+      label: Access Control
+
+    icon: 
+      image/icon-css-classes: fa-key
+
+    layout: 
+      sequence: 20
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:10010:&APP_SESSION.::&DEBUG.:::'
+        page: 10010 # Configure Access Control
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+      1.: Change access control settings and disable access control
+

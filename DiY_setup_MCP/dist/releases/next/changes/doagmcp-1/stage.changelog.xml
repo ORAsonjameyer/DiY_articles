@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+<include file="wksp_doagmcp/tables/ocg_country_code_lookup.sql" relativeToChangelogFile="true"/>
+<include file="wksp_doagmcp/tables/ocg_groups_eu.sql" relativeToChangelogFile="true"/>
+<include file="wksp_doagmcp/tables/ocg_group_events_2026.sql" relativeToChangelogFile="true"/>
+<include file="wksp_doagmcp/ref_constraints/ocg_events_2026_fk.sql" relativeToChangelogFile="true"/>
+<include file="_custom/sample-data.sql" relativeToChangelogFile="true"/>
+</databaseChangeLog>

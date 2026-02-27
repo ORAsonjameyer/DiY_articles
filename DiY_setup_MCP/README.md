@@ -58,3 +58,13 @@ SQL> project export
     -------------------------------
     Exported 6 objects
     Elapsed 63 sec
+
+
+SQL> project stage -verbose 
+    The current connection WKSP_DOAGMCP will be used for all operations
+
+    Starting execution of stage command using the current branch
+    Stage is Comparing:
+    Old Branch      refs/heads/main
+    New Branch      refs/heads/doagmcp-1
+
